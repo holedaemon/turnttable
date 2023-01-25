@@ -1,0 +1,16 @@
+add-global-variants = false
+add-panic-variants = false
+add-enum-types = true
+no-hooks = true
+no-rows-affected = true
+no-tests = true
+wipe = true
+
+[psql]
+dbname = "s"
+host = "127.0.0.2"
+port = 9999
+user = "s"
+pass = "s"
+sslmode = "disable"
+blacklist = ["schema_migrations"]
