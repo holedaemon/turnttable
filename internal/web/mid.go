@@ -1,5 +1,6 @@
-// Package mid gracefully steals the Recoverer and Logger middleware from the HortBot codebase
-package mid
+package web
+
+// Thanks, Zik
 
 import (
 	"net/http"
@@ -9,14 +10,14 @@ import (
 )
 
 // Recoverer recovers from any panics that occurr during a request.
-func Recoverer(next http.Handler) http.Handler {
+func (s *Server) recoverer(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if rvr := recover(); rvr != nil {
 				ctx := ctxlog.WithOptions(r.Context(), zap.AddStacktrace(zap.ErrorLevel))
 				ctxlog.Error(ctx, "PANIC", zap.Any("value", rvr))
 
-				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+				s.internalError(w, r)
 			}
 		}()
 

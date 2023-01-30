@@ -1,0 +1,21 @@
+{% code
+type StatusPage struct {
+    BasePage
+    PageTitle string
+    Header string
+    Subtitle string
+}
+%}
+
+{% func (p *StatusPage) Title() %}{%s p.PageTitle %}{% endfunc %}
+
+{% func (p *StatusPage) Meta() %}{% endfunc %}
+
+{% func (p *StatusPage) Body() %}
+<section class="hero is-dark">
+    <div class="hero-body">
+        <p class="title">{%s p.Header %}</p>
+        <p class="subtitle">{%s p.Subtitle %}</p>
+    </div>
+</section>
+{% endfunc %}

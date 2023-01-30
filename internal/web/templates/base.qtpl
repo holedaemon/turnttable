@@ -1,0 +1,47 @@
+{% interface Page {
+    Title()
+    Body()
+    Meta()
+}
+%}
+
+{% func PageTemplate(p Page) %}
+<html class="has-background-dark has-text-light">
+    <head>
+        <title>turnttable &bull; {%= p.Title() %}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+        {%= p.Meta() %}
+    </head>
+    <body>
+        <div class="container">
+             <nav class="navbar is-dark mb-5" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item is-size-4" href="/">
+                        turnttable
+                    </a>
+                </div>
+                
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                        <a class="navbar-item" href="/about">
+                            About
+                        </a>
+                        <a class="navbar-item" href="/admin">
+                            Admin
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            {%= p.Body() %}
+        </div>
+    </body>
+</html>
+{% endfunc %}
+
+{% code type BasePage struct {} %}
+{% func (p *BasePage) Title() %} {% endfunc %}
+{% func (p *BasePage) Body() %} {% endfunc %}

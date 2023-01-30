@@ -1,0 +1,95 @@
+{% code
+type AdminPage struct {
+    BasePage
+}
+%}
+
+{% func (p *AdminPage) Title() %}Admin{% endfunc %}
+
+{% func (p *AdminPage) Meta() %}{% endfunc %}
+
+{% func (p *AdminPage) Body() %}
+<form method="post">
+    <div class="columns is-multiline mx-1">
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Release Title</label>
+                <div class="control">
+                    <input class="input" type="text" name="title" placeholder="Release Title" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Artist</label>
+                <div class="control">
+                    <input class="input" type="text" name="artist" placeholder="Artist" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Label</label>
+                <div class="control">
+                    <input class="input" type="text" name="label" placeholder="Label" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Catalogue Number</label>
+                <div class="control">
+                    <input class="input" type="text" name="cn" placeholder="Catalogue Number" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Genre</label>
+                <div class="control">
+                    <input class="input" type="text" name="genre" placeholder="Genre" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Released</label>
+                <div class="control">
+                    <input class="input" type="date" name="release" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Purchased</label>
+                <div class="control">
+                    <input class="input" type="date" name="purchased" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-quarter">
+            <div class="field">
+                <label class="label has-text-white-ter">Medium</label>
+                <div class="control">
+                    <div class="select" name="medium">
+                        <select>
+                            <option>CD</option>
+                            <option>Vinyl</option>
+                            <option>Cassette</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="columns mx-1">
+        <div class="column is-one-quarter">
+            <div class="field">
+                <div class="control">
+                    <button class="button is-black">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endfunc %}
