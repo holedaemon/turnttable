@@ -22,8 +22,8 @@ import (
 	"github.com/volatiletech/strmangle"
 )
 
-// Collection is an object representing the database table.
-type Collection struct {
+// Record is an object representing the database table.
+type Record struct {
 	ID        int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
 	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 	UpdatedAt time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
@@ -36,11 +36,11 @@ type Collection struct {
 	Purchased null.Time `boil:"purchased" json:"purchased,omitempty" toml:"purchased" yaml:"purchased,omitempty"`
 	Medium    Medium    `boil:"medium" json:"medium" toml:"medium" yaml:"medium"`
 
-	R *collectionR `boil:"-" json:"-" toml:"-" yaml:"-"`
-	L collectionL  `boil:"-" json:"-" toml:"-" yaml:"-"`
+	R *recordR `boil:"-" json:"-" toml:"-" yaml:"-"`
+	L recordL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
-var CollectionColumns = struct {
+var RecordColumns = struct {
 	ID        string
 	CreatedAt string
 	UpdatedAt string
@@ -66,7 +66,7 @@ var CollectionColumns = struct {
 	Medium:    "medium",
 }
 
-var CollectionTableColumns = struct {
+var RecordTableColumns = struct {
 	ID        string
 	CreatedAt string
 	UpdatedAt string
@@ -79,17 +79,17 @@ var CollectionTableColumns = struct {
 	Purchased string
 	Medium    string
 }{
-	ID:        "collection.id",
-	CreatedAt: "collection.created_at",
-	UpdatedAt: "collection.updated_at",
-	Title:     "collection.title",
-	Artist:    "collection.artist",
-	Label:     "collection.label",
-	CN:        "collection.cn",
-	Genre:     "collection.genre",
-	Released:  "collection.released",
-	Purchased: "collection.purchased",
-	Medium:    "collection.medium",
+	ID:        "records.id",
+	CreatedAt: "records.created_at",
+	UpdatedAt: "records.updated_at",
+	Title:     "records.title",
+	Artist:    "records.artist",
+	Label:     "records.label",
+	CN:        "records.cn",
+	Genre:     "records.genre",
+	Released:  "records.released",
+	Purchased: "records.purchased",
+	Medium:    "records.medium",
 }
 
 // Generated where
@@ -208,7 +208,7 @@ func (w whereHelperMedium) NIN(slice []Medium) qm.QueryMod {
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
-var CollectionWhere = struct {
+var RecordWhere = struct {
 	ID        whereHelperint64
 	CreatedAt whereHelpertime_Time
 	UpdatedAt whereHelpertime_Time
@@ -221,64 +221,64 @@ var CollectionWhere = struct {
 	Purchased whereHelpernull_Time
 	Medium    whereHelperMedium
 }{
-	ID:        whereHelperint64{field: "\"collection\".\"id\""},
-	CreatedAt: whereHelpertime_Time{field: "\"collection\".\"created_at\""},
-	UpdatedAt: whereHelpertime_Time{field: "\"collection\".\"updated_at\""},
-	Title:     whereHelperstring{field: "\"collection\".\"title\""},
-	Artist:    whereHelperstring{field: "\"collection\".\"artist\""},
-	Label:     whereHelperstring{field: "\"collection\".\"label\""},
-	CN:        whereHelperstring{field: "\"collection\".\"cn\""},
-	Genre:     whereHelperstring{field: "\"collection\".\"genre\""},
-	Released:  whereHelpertime_Time{field: "\"collection\".\"released\""},
-	Purchased: whereHelpernull_Time{field: "\"collection\".\"purchased\""},
-	Medium:    whereHelperMedium{field: "\"collection\".\"medium\""},
+	ID:        whereHelperint64{field: "\"records\".\"id\""},
+	CreatedAt: whereHelpertime_Time{field: "\"records\".\"created_at\""},
+	UpdatedAt: whereHelpertime_Time{field: "\"records\".\"updated_at\""},
+	Title:     whereHelperstring{field: "\"records\".\"title\""},
+	Artist:    whereHelperstring{field: "\"records\".\"artist\""},
+	Label:     whereHelperstring{field: "\"records\".\"label\""},
+	CN:        whereHelperstring{field: "\"records\".\"cn\""},
+	Genre:     whereHelperstring{field: "\"records\".\"genre\""},
+	Released:  whereHelpertime_Time{field: "\"records\".\"released\""},
+	Purchased: whereHelpernull_Time{field: "\"records\".\"purchased\""},
+	Medium:    whereHelperMedium{field: "\"records\".\"medium\""},
 }
 
-// CollectionRels is where relationship names are stored.
-var CollectionRels = struct {
+// RecordRels is where relationship names are stored.
+var RecordRels = struct {
 }{}
 
-// collectionR is where relationships are stored.
-type collectionR struct {
+// recordR is where relationships are stored.
+type recordR struct {
 }
 
 // NewStruct creates a new relationship struct
-func (*collectionR) NewStruct() *collectionR {
-	return &collectionR{}
+func (*recordR) NewStruct() *recordR {
+	return &recordR{}
 }
 
-// collectionL is where Load methods for each relationship are stored.
-type collectionL struct{}
+// recordL is where Load methods for each relationship are stored.
+type recordL struct{}
 
 var (
-	collectionAllColumns            = []string{"id", "created_at", "updated_at", "title", "artist", "label", "cn", "genre", "released", "purchased", "medium"}
-	collectionColumnsWithoutDefault = []string{"title", "artist", "label", "cn", "genre", "released", "medium"}
-	collectionColumnsWithDefault    = []string{"id", "created_at", "updated_at", "purchased"}
-	collectionPrimaryKeyColumns     = []string{"id"}
-	collectionGeneratedColumns      = []string{}
+	recordAllColumns            = []string{"id", "created_at", "updated_at", "title", "artist", "label", "cn", "genre", "released", "purchased", "medium"}
+	recordColumnsWithoutDefault = []string{"title", "artist", "label", "cn", "genre", "released", "medium"}
+	recordColumnsWithDefault    = []string{"id", "created_at", "updated_at", "purchased"}
+	recordPrimaryKeyColumns     = []string{"id"}
+	recordGeneratedColumns      = []string{}
 )
 
 type (
-	// CollectionSlice is an alias for a slice of pointers to Collection.
-	// This should almost always be used instead of []Collection.
-	CollectionSlice []*Collection
+	// RecordSlice is an alias for a slice of pointers to Record.
+	// This should almost always be used instead of []Record.
+	RecordSlice []*Record
 
-	collectionQuery struct {
+	recordQuery struct {
 		*queries.Query
 	}
 )
 
 // Cache for insert, update and upsert
 var (
-	collectionType                 = reflect.TypeOf(&Collection{})
-	collectionMapping              = queries.MakeStructMapping(collectionType)
-	collectionPrimaryKeyMapping, _ = queries.BindMapping(collectionType, collectionMapping, collectionPrimaryKeyColumns)
-	collectionInsertCacheMut       sync.RWMutex
-	collectionInsertCache          = make(map[string]insertCache)
-	collectionUpdateCacheMut       sync.RWMutex
-	collectionUpdateCache          = make(map[string]updateCache)
-	collectionUpsertCacheMut       sync.RWMutex
-	collectionUpsertCache          = make(map[string]insertCache)
+	recordType                 = reflect.TypeOf(&Record{})
+	recordMapping              = queries.MakeStructMapping(recordType)
+	recordPrimaryKeyMapping, _ = queries.BindMapping(recordType, recordMapping, recordPrimaryKeyColumns)
+	recordInsertCacheMut       sync.RWMutex
+	recordInsertCache          = make(map[string]insertCache)
+	recordUpdateCacheMut       sync.RWMutex
+	recordUpdateCache          = make(map[string]updateCache)
+	recordUpsertCacheMut       sync.RWMutex
+	recordUpsertCache          = make(map[string]insertCache)
 )
 
 var (
@@ -289,9 +289,9 @@ var (
 	_ = qmhelper.Where
 )
 
-// One returns a single collection record from the query.
-func (q collectionQuery) One(ctx context.Context, exec boil.ContextExecutor) (*Collection, error) {
-	o := &Collection{}
+// One returns a single record record from the query.
+func (q recordQuery) One(ctx context.Context, exec boil.ContextExecutor) (*Record, error) {
+	o := &Record{}
 
 	queries.SetLimit(q.Query, 1)
 
@@ -300,26 +300,26 @@ func (q collectionQuery) One(ctx context.Context, exec boil.ContextExecutor) (*C
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "models: failed to execute a one query for collection")
+		return nil, errors.Wrap(err, "models: failed to execute a one query for records")
 	}
 
 	return o, nil
 }
 
-// All returns all Collection records from the query.
-func (q collectionQuery) All(ctx context.Context, exec boil.ContextExecutor) (CollectionSlice, error) {
-	var o []*Collection
+// All returns all Record records from the query.
+func (q recordQuery) All(ctx context.Context, exec boil.ContextExecutor) (RecordSlice, error) {
+	var o []*Record
 
 	err := q.Bind(ctx, exec, &o)
 	if err != nil {
-		return nil, errors.Wrap(err, "models: failed to assign all query results to Collection slice")
+		return nil, errors.Wrap(err, "models: failed to assign all query results to Record slice")
 	}
 
 	return o, nil
 }
 
-// Count returns the count of all Collection records in the query.
-func (q collectionQuery) Count(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+// Count returns the count of all Record records in the query.
+func (q recordQuery) Count(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
 	var count int64
 
 	queries.SetSelect(q.Query, nil)
@@ -327,14 +327,14 @@ func (q collectionQuery) Count(ctx context.Context, exec boil.ContextExecutor) (
 
 	err := q.Query.QueryRowContext(ctx, exec).Scan(&count)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to count collection rows")
+		return 0, errors.Wrap(err, "models: failed to count records rows")
 	}
 
 	return count, nil
 }
 
 // Exists checks if the row exists in the table.
-func (q collectionQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
+func (q recordQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
 	var count int64
 
 	queries.SetSelect(q.Query, nil)
@@ -343,54 +343,54 @@ func (q collectionQuery) Exists(ctx context.Context, exec boil.ContextExecutor) 
 
 	err := q.Query.QueryRowContext(ctx, exec).Scan(&count)
 	if err != nil {
-		return false, errors.Wrap(err, "models: failed to check if collection exists")
+		return false, errors.Wrap(err, "models: failed to check if records exists")
 	}
 
 	return count > 0, nil
 }
 
-// Collections retrieves all the records using an executor.
-func Collections(mods ...qm.QueryMod) collectionQuery {
-	mods = append(mods, qm.From("\"collection\""))
+// Records retrieves all the records using an executor.
+func Records(mods ...qm.QueryMod) recordQuery {
+	mods = append(mods, qm.From("\"records\""))
 	q := NewQuery(mods...)
 	if len(queries.GetSelect(q)) == 0 {
-		queries.SetSelect(q, []string{"\"collection\".*"})
+		queries.SetSelect(q, []string{"\"records\".*"})
 	}
 
-	return collectionQuery{q}
+	return recordQuery{q}
 }
 
-// FindCollection retrieves a single record by ID with an executor.
+// FindRecord retrieves a single record by ID with an executor.
 // If selectCols is empty Find will return all columns.
-func FindCollection(ctx context.Context, exec boil.ContextExecutor, iD int64, selectCols ...string) (*Collection, error) {
-	collectionObj := &Collection{}
+func FindRecord(ctx context.Context, exec boil.ContextExecutor, iD int64, selectCols ...string) (*Record, error) {
+	recordObj := &Record{}
 
 	sel := "*"
 	if len(selectCols) > 0 {
 		sel = strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, selectCols), ",")
 	}
 	query := fmt.Sprintf(
-		"select %s from \"collection\" where \"id\"=$1", sel,
+		"select %s from \"records\" where \"id\"=$1", sel,
 	)
 
 	q := queries.Raw(query, iD)
 
-	err := q.Bind(ctx, exec, collectionObj)
+	err := q.Bind(ctx, exec, recordObj)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "models: unable to select from collection")
+		return nil, errors.Wrap(err, "models: unable to select from records")
 	}
 
-	return collectionObj, nil
+	return recordObj, nil
 }
 
 // Insert a single record using an executor.
 // See boil.Columns.InsertColumnSet documentation to understand column list inference for inserts.
-func (o *Collection) Insert(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) error {
+func (o *Record) Insert(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) error {
 	if o == nil {
-		return errors.New("models: no collection provided for insertion")
+		return errors.New("models: no records provided for insertion")
 	}
 
 	var err error
@@ -405,33 +405,33 @@ func (o *Collection) Insert(ctx context.Context, exec boil.ContextExecutor, colu
 		}
 	}
 
-	nzDefaults := queries.NonZeroDefaultSet(collectionColumnsWithDefault, o)
+	nzDefaults := queries.NonZeroDefaultSet(recordColumnsWithDefault, o)
 
 	key := makeCacheKey(columns, nzDefaults)
-	collectionInsertCacheMut.RLock()
-	cache, cached := collectionInsertCache[key]
-	collectionInsertCacheMut.RUnlock()
+	recordInsertCacheMut.RLock()
+	cache, cached := recordInsertCache[key]
+	recordInsertCacheMut.RUnlock()
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			collectionAllColumns,
-			collectionColumnsWithDefault,
-			collectionColumnsWithoutDefault,
+			recordAllColumns,
+			recordColumnsWithDefault,
+			recordColumnsWithoutDefault,
 			nzDefaults,
 		)
 
-		cache.valueMapping, err = queries.BindMapping(collectionType, collectionMapping, wl)
+		cache.valueMapping, err = queries.BindMapping(recordType, recordMapping, wl)
 		if err != nil {
 			return err
 		}
-		cache.retMapping, err = queries.BindMapping(collectionType, collectionMapping, returnColumns)
+		cache.retMapping, err = queries.BindMapping(recordType, recordMapping, returnColumns)
 		if err != nil {
 			return err
 		}
 		if len(wl) != 0 {
-			cache.query = fmt.Sprintf("INSERT INTO \"collection\" (\"%s\") %%sVALUES (%s)%%s", strings.Join(wl, "\",\""), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
+			cache.query = fmt.Sprintf("INSERT INTO \"records\" (\"%s\") %%sVALUES (%s)%%s", strings.Join(wl, "\",\""), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
 		} else {
-			cache.query = "INSERT INTO \"collection\" %sDEFAULT VALUES%s"
+			cache.query = "INSERT INTO \"records\" %sDEFAULT VALUES%s"
 		}
 
 		var queryOutput, queryReturning string
@@ -459,22 +459,22 @@ func (o *Collection) Insert(ctx context.Context, exec boil.ContextExecutor, colu
 	}
 
 	if err != nil {
-		return errors.Wrap(err, "models: unable to insert into collection")
+		return errors.Wrap(err, "models: unable to insert into records")
 	}
 
 	if !cached {
-		collectionInsertCacheMut.Lock()
-		collectionInsertCache[key] = cache
-		collectionInsertCacheMut.Unlock()
+		recordInsertCacheMut.Lock()
+		recordInsertCache[key] = cache
+		recordInsertCacheMut.Unlock()
 	}
 
 	return nil
 }
 
-// Update uses an executor to update the Collection.
+// Update uses an executor to update the Record.
 // See boil.Columns.UpdateColumnSet documentation to understand column list inference for updates.
 // Update does not automatically update the record in case of default values. Use .Reload() to refresh the records.
-func (o *Collection) Update(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) error {
+func (o *Record) Update(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) error {
 	if !boil.TimestampsAreSkipped(ctx) {
 		currTime := time.Now().In(boil.GetLocation())
 
@@ -483,28 +483,28 @@ func (o *Collection) Update(ctx context.Context, exec boil.ContextExecutor, colu
 
 	var err error
 	key := makeCacheKey(columns, nil)
-	collectionUpdateCacheMut.RLock()
-	cache, cached := collectionUpdateCache[key]
-	collectionUpdateCacheMut.RUnlock()
+	recordUpdateCacheMut.RLock()
+	cache, cached := recordUpdateCache[key]
+	recordUpdateCacheMut.RUnlock()
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			collectionAllColumns,
-			collectionPrimaryKeyColumns,
+			recordAllColumns,
+			recordPrimaryKeyColumns,
 		)
 
 		if !columns.IsWhitelist() {
 			wl = strmangle.SetComplement(wl, []string{"created_at"})
 		}
 		if len(wl) == 0 {
-			return errors.New("models: unable to update collection, could not build whitelist")
+			return errors.New("models: unable to update records, could not build whitelist")
 		}
 
-		cache.query = fmt.Sprintf("UPDATE \"collection\" SET %s WHERE %s",
+		cache.query = fmt.Sprintf("UPDATE \"records\" SET %s WHERE %s",
 			strmangle.SetParamNames("\"", "\"", 1, wl),
-			strmangle.WhereClause("\"", "\"", len(wl)+1, collectionPrimaryKeyColumns),
+			strmangle.WhereClause("\"", "\"", len(wl)+1, recordPrimaryKeyColumns),
 		)
-		cache.valueMapping, err = queries.BindMapping(collectionType, collectionMapping, append(wl, collectionPrimaryKeyColumns...))
+		cache.valueMapping, err = queries.BindMapping(recordType, recordMapping, append(wl, recordPrimaryKeyColumns...))
 		if err != nil {
 			return err
 		}
@@ -519,32 +519,32 @@ func (o *Collection) Update(ctx context.Context, exec boil.ContextExecutor, colu
 	}
 	_, err = exec.ExecContext(ctx, cache.query, values...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to update collection row")
+		return errors.Wrap(err, "models: unable to update records row")
 	}
 
 	if !cached {
-		collectionUpdateCacheMut.Lock()
-		collectionUpdateCache[key] = cache
-		collectionUpdateCacheMut.Unlock()
+		recordUpdateCacheMut.Lock()
+		recordUpdateCache[key] = cache
+		recordUpdateCacheMut.Unlock()
 	}
 
 	return nil
 }
 
 // UpdateAll updates all rows with the specified column values.
-func (q collectionQuery) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) error {
+func (q recordQuery) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) error {
 	queries.SetUpdate(q.Query, cols)
 
 	_, err := q.Query.ExecContext(ctx, exec)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to update all for collection")
+		return errors.Wrap(err, "models: unable to update all for records")
 	}
 
 	return nil
 }
 
 // UpdateAll updates all rows with the specified column values, using an executor.
-func (o CollectionSlice) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) error {
+func (o RecordSlice) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) error {
 	ln := int64(len(o))
 	if ln == 0 {
 		return nil
@@ -566,13 +566,13 @@ func (o CollectionSlice) UpdateAll(ctx context.Context, exec boil.ContextExecuto
 
 	// Append all of the primary key values for each column
 	for _, obj := range o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), collectionPrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), recordPrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := fmt.Sprintf("UPDATE \"collection\" SET %s WHERE %s",
+	sql := fmt.Sprintf("UPDATE \"records\" SET %s WHERE %s",
 		strmangle.SetParamNames("\"", "\"", 1, colNames),
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), len(colNames)+1, collectionPrimaryKeyColumns, len(o)))
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), len(colNames)+1, recordPrimaryKeyColumns, len(o)))
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -581,7 +581,7 @@ func (o CollectionSlice) UpdateAll(ctx context.Context, exec boil.ContextExecuto
 	}
 	_, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to update all in collection slice")
+		return errors.Wrap(err, "models: unable to update all in record slice")
 	}
 
 	return nil
@@ -589,9 +589,9 @@ func (o CollectionSlice) UpdateAll(ctx context.Context, exec boil.ContextExecuto
 
 // Upsert attempts an insert using an executor, and does an update or ignore on conflict.
 // See boil.Columns documentation for how to properly use updateColumns and insertColumns.
-func (o *Collection) Upsert(ctx context.Context, exec boil.ContextExecutor, updateOnConflict bool, conflictColumns []string, updateColumns, insertColumns boil.Columns) error {
+func (o *Record) Upsert(ctx context.Context, exec boil.ContextExecutor, updateOnConflict bool, conflictColumns []string, updateColumns, insertColumns boil.Columns) error {
 	if o == nil {
-		return errors.New("models: no collection provided for upsert")
+		return errors.New("models: no records provided for upsert")
 	}
 	if !boil.TimestampsAreSkipped(ctx) {
 		currTime := time.Now().In(boil.GetLocation())
@@ -602,7 +602,7 @@ func (o *Collection) Upsert(ctx context.Context, exec boil.ContextExecutor, upda
 		o.UpdatedAt = currTime
 	}
 
-	nzDefaults := queries.NonZeroDefaultSet(collectionColumnsWithDefault, o)
+	nzDefaults := queries.NonZeroDefaultSet(recordColumnsWithDefault, o)
 
 	// Build cache key in-line uglily - mysql vs psql problems
 	buf := strmangle.GetBuffer()
@@ -632,42 +632,42 @@ func (o *Collection) Upsert(ctx context.Context, exec boil.ContextExecutor, upda
 	key := buf.String()
 	strmangle.PutBuffer(buf)
 
-	collectionUpsertCacheMut.RLock()
-	cache, cached := collectionUpsertCache[key]
-	collectionUpsertCacheMut.RUnlock()
+	recordUpsertCacheMut.RLock()
+	cache, cached := recordUpsertCache[key]
+	recordUpsertCacheMut.RUnlock()
 
 	var err error
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			collectionAllColumns,
-			collectionColumnsWithDefault,
-			collectionColumnsWithoutDefault,
+			recordAllColumns,
+			recordColumnsWithDefault,
+			recordColumnsWithoutDefault,
 			nzDefaults,
 		)
 
 		update := updateColumns.UpdateColumnSet(
-			collectionAllColumns,
-			collectionPrimaryKeyColumns,
+			recordAllColumns,
+			recordPrimaryKeyColumns,
 		)
 
 		if updateOnConflict && len(update) == 0 {
-			return errors.New("models: unable to upsert collection, could not build update column list")
+			return errors.New("models: unable to upsert records, could not build update column list")
 		}
 
 		conflict := conflictColumns
 		if len(conflict) == 0 {
-			conflict = make([]string, len(collectionPrimaryKeyColumns))
-			copy(conflict, collectionPrimaryKeyColumns)
+			conflict = make([]string, len(recordPrimaryKeyColumns))
+			copy(conflict, recordPrimaryKeyColumns)
 		}
-		cache.query = buildUpsertQueryPostgres(dialect, "\"collection\"", updateOnConflict, ret, update, conflict, insert)
+		cache.query = buildUpsertQueryPostgres(dialect, "\"records\"", updateOnConflict, ret, update, conflict, insert)
 
-		cache.valueMapping, err = queries.BindMapping(collectionType, collectionMapping, insert)
+		cache.valueMapping, err = queries.BindMapping(recordType, recordMapping, insert)
 		if err != nil {
 			return err
 		}
 		if len(ret) != 0 {
-			cache.retMapping, err = queries.BindMapping(collectionType, collectionMapping, ret)
+			cache.retMapping, err = queries.BindMapping(recordType, recordMapping, ret)
 			if err != nil {
 				return err
 			}
@@ -695,27 +695,27 @@ func (o *Collection) Upsert(ctx context.Context, exec boil.ContextExecutor, upda
 		_, err = exec.ExecContext(ctx, cache.query, vals...)
 	}
 	if err != nil {
-		return errors.Wrap(err, "models: unable to upsert collection")
+		return errors.Wrap(err, "models: unable to upsert records")
 	}
 
 	if !cached {
-		collectionUpsertCacheMut.Lock()
-		collectionUpsertCache[key] = cache
-		collectionUpsertCacheMut.Unlock()
+		recordUpsertCacheMut.Lock()
+		recordUpsertCache[key] = cache
+		recordUpsertCacheMut.Unlock()
 	}
 
 	return nil
 }
 
-// Delete deletes a single Collection record with an executor.
+// Delete deletes a single Record record with an executor.
 // Delete will match against the primary key column to find the record to delete.
-func (o *Collection) Delete(ctx context.Context, exec boil.ContextExecutor) error {
+func (o *Record) Delete(ctx context.Context, exec boil.ContextExecutor) error {
 	if o == nil {
-		return errors.New("models: no Collection provided for delete")
+		return errors.New("models: no Record provided for delete")
 	}
 
-	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), collectionPrimaryKeyMapping)
-	sql := "DELETE FROM \"collection\" WHERE \"id\"=$1"
+	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), recordPrimaryKeyMapping)
+	sql := "DELETE FROM \"records\" WHERE \"id\"=$1"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -724,42 +724,42 @@ func (o *Collection) Delete(ctx context.Context, exec boil.ContextExecutor) erro
 	}
 	_, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to delete from collection")
+		return errors.Wrap(err, "models: unable to delete from records")
 	}
 
 	return nil
 }
 
 // DeleteAll deletes all matching rows.
-func (q collectionQuery) DeleteAll(ctx context.Context, exec boil.ContextExecutor) error {
+func (q recordQuery) DeleteAll(ctx context.Context, exec boil.ContextExecutor) error {
 	if q.Query == nil {
-		return errors.New("models: no collectionQuery provided for delete all")
+		return errors.New("models: no recordQuery provided for delete all")
 	}
 
 	queries.SetDelete(q.Query)
 
 	_, err := q.Query.ExecContext(ctx, exec)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to delete all from collection")
+		return errors.Wrap(err, "models: unable to delete all from records")
 	}
 
 	return nil
 }
 
 // DeleteAll deletes all rows in the slice, using an executor.
-func (o CollectionSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) error {
+func (o RecordSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) error {
 	if len(o) == 0 {
 		return nil
 	}
 
 	var args []interface{}
 	for _, obj := range o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), collectionPrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), recordPrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "DELETE FROM \"collection\" WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 1, collectionPrimaryKeyColumns, len(o))
+	sql := "DELETE FROM \"records\" WHERE " +
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 1, recordPrimaryKeyColumns, len(o))
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -768,7 +768,7 @@ func (o CollectionSlice) DeleteAll(ctx context.Context, exec boil.ContextExecuto
 	}
 	_, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to delete all from collection slice")
+		return errors.Wrap(err, "models: unable to delete all from record slice")
 	}
 
 	return nil
@@ -776,8 +776,8 @@ func (o CollectionSlice) DeleteAll(ctx context.Context, exec boil.ContextExecuto
 
 // Reload refetches the object from the database
 // using the primary keys with an executor.
-func (o *Collection) Reload(ctx context.Context, exec boil.ContextExecutor) error {
-	ret, err := FindCollection(ctx, exec, o.ID)
+func (o *Record) Reload(ctx context.Context, exec boil.ContextExecutor) error {
+	ret, err := FindRecord(ctx, exec, o.ID)
 	if err != nil {
 		return err
 	}
@@ -788,26 +788,26 @@ func (o *Collection) Reload(ctx context.Context, exec boil.ContextExecutor) erro
 
 // ReloadAll refetches every row with matching primary key column values
 // and overwrites the original object slice with the newly updated slice.
-func (o *CollectionSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor) error {
+func (o *RecordSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor) error {
 	if o == nil || len(*o) == 0 {
 		return nil
 	}
 
-	slice := CollectionSlice{}
+	slice := RecordSlice{}
 	var args []interface{}
 	for _, obj := range *o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), collectionPrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), recordPrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "SELECT \"collection\".* FROM \"collection\" WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 1, collectionPrimaryKeyColumns, len(*o))
+	sql := "SELECT \"records\".* FROM \"records\" WHERE " +
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 1, recordPrimaryKeyColumns, len(*o))
 
 	q := queries.Raw(sql, args...)
 
 	err := q.Bind(ctx, exec, &slice)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to reload all in CollectionSlice")
+		return errors.Wrap(err, "models: unable to reload all in RecordSlice")
 	}
 
 	*o = slice
@@ -815,10 +815,10 @@ func (o *CollectionSlice) ReloadAll(ctx context.Context, exec boil.ContextExecut
 	return nil
 }
 
-// CollectionExists checks if the Collection row exists.
-func CollectionExists(ctx context.Context, exec boil.ContextExecutor, iD int64) (bool, error) {
+// RecordExists checks if the Record row exists.
+func RecordExists(ctx context.Context, exec boil.ContextExecutor, iD int64) (bool, error) {
 	var exists bool
-	sql := "select exists(select 1 from \"collection\" where \"id\"=$1 limit 1)"
+	sql := "select exists(select 1 from \"records\" where \"id\"=$1 limit 1)"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -829,13 +829,13 @@ func CollectionExists(ctx context.Context, exec boil.ContextExecutor, iD int64) 
 
 	err := row.Scan(&exists)
 	if err != nil {
-		return false, errors.Wrap(err, "models: unable to check if collection exists")
+		return false, errors.Wrap(err, "models: unable to check if records exists")
 	}
 
 	return exists, nil
 }
 
-// Exists checks if the Collection row exists.
-func (o *Collection) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
-	return CollectionExists(ctx, exec, o.ID)
+// Exists checks if the Record row exists.
+func (o *Record) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
+	return RecordExists(ctx, exec, o.ID)
 }

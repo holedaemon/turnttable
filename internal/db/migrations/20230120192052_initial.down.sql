@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE collection;
+DROP TABLE records;
 
 DROP TYPE medium;
 
