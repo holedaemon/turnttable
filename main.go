@@ -2,12 +2,15 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"os"
 	"strings"
 
 	"github.com/holedaemon/turnttable/internal/web"
 	"github.com/zikaeroh/ctxlog"
 	"go.uber.org/zap"
+
+	_ "github.com/jackc/pgx/stdlib"
 )
 
 func main() {
@@ -34,8 +37,21 @@ func main() {
 		admins[split[0]] = split[1]
 	}
 
+	dsn := os.Getenv("TURNTTABLE_DSN")
+	if dsn == "" {
+		panic("turnttable: dsn blank")
+	}
+
+	db, err := sql.Open("pgx", dsn)
+	if err != nil {
+		panic("turnttable: error opening db conn: " + err.Error())
+	}
+
+	defer db.Close()
+
 	srv := &web.Server{
 		Addr:   addr,
+		DB:     db,
 		Admins: admins,
 	}
 

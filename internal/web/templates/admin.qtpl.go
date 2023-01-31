@@ -152,11 +152,11 @@ func (p *AdminPage) StreamBody(qw422016 *qt422016.Writer) {
             <div class="field">
                 <label class="label has-text-white-ter">Medium</label>
                 <div class="control">
-                    <div class="select" name="medium">
-                        <select>
-                            <option>CD</option>
-                            <option>Vinyl</option>
-                            <option>Cassette</option>
+                    <div class="select">
+                        <select name="medium">
+                            <option value="cd">CD</option>
+                            <option value="vinyl">Vinyl</option>
+                            <option value="cassette">Cassette</option>
                         </select>
                     </div>
                 </div>

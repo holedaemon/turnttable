@@ -58,12 +58,17 @@ func (s *Server) Run(ctx context.Context) error {
 	return srv.ListenAndServe()
 }
 
-func (s *Server) unauthorized(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("WWW-Authenticate", `Basic realm="turnttable"`)
+func (s *Server) unauthorized(w http.ResponseWriter, header bool) {
+	if header {
+		w.Header().Add("WWW-Authenticate", `Basic realm="turnttable"`)
+	}
+
+	w.WriteHeader(http.StatusUnauthorized)
 	s.statusPage(w, "Oh Uh", "LOL HOW ARE YOU SO SMALL???", "You need special pants to open this door (Unauthorized)")
 }
 
-func (s *Server) internalError(w http.ResponseWriter, r *http.Request) {
+func (s *Server) internalError(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusInternalServerError)
 	templates.WritePageTemplate(w, &templates.StatusPage{
 		PageTitle: "uh oh sisters",
 		Header:    "idk man, I think it's your catalytic converter",

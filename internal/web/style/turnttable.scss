@@ -1,0 +1,32 @@
+@charset "utf-8";
+@use "sass:color";
+
+$black: hsl(233, 18%, 5%);
+$black-bis: color.scale($black, $lightness: 2%);
+$black-ter: color.scale($black-bis, $lightness: 2%);
+$white: color.invert($black, $weight: 100%);
+
+$dark: $black;
+$scheme-main: $black;
+$scheme-main-bis: $black-bis;
+$scheme-main-ter: $black-ter;
+$blue: hsl(228, 71%, 44%);
+
+$primary: $blue;
+
+$border: $white;
+$border-hover: color.scale($border, $lightness: -10%);
+
+$table-color: $white;
+$table-background-color: $black;
+$table-cell-heading-color: $white;
+$table-head-cell-color: $white;
+$table-foot-cell-color: $white;
+
+@import "bulma/sass/utilities/_all.sass";
+@import "bulma/sass/base/_all.sass";
+@import "bulma/sass/components/navbar.sass";
+@import "bulma/sass/form/_all.sass";
+@import "bulma/sass/elements/container.sass";
+@import "bulma/sass/elements/table.sass";
+@import "bulma/sass/helpers/_all.sass";
