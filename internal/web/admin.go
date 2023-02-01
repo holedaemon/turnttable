@@ -15,12 +15,6 @@ import (
 	"go.uber.org/zap"
 )
 
-var mediumMap map[string]models.Medium = map[string]models.Medium{
-	"cd":       models.MediumCD,
-	"vinyl":    models.MediumVinyl,
-	"cassette": models.MediumCassette,
-}
-
 func (s *Server) routeAdmin(r chi.Router) {
 	r.Use(s.adminAuth)
 

@@ -1,0 +1,43 @@
+{% import "github.com/holedaemon/turnttable/internal/db/models" %}
+
+{% code
+type IndexPage struct {
+    BasePage
+    Rows models.RecordSlice
+}
+%}
+
+{% func (p *IndexPage) Title() %}Home{% endfunc %}
+
+{% func (p *IndexPage) Meta() %}{% endfunc %}
+
+{% func (p *IndexPage) Body() %}
+<table id="turnt-table" class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th><abbr title="Position">Pos</abbr></th>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Label</th>
+                        <th><abbr title="Catalogue Number">CN</abbr></th>
+                        <th>Genre</th>
+                        <th>Released</th>
+                        <th>Purchased</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i, row := range p.Rows %}
+                        <tr>
+                            <td>{%d i %}</td>
+                            <td>{%s row.Title %}</td>
+                            <td>{%s row.Artist %}</td>
+                            <td>{%s row.Label %}</td>
+                            <td>{%s row.CN %}</td>
+                            <td>{%s row.Genre %}</td>
+                            <td>{%s row.Released.Format("2006-01-02") %}</td>
+                            <td>{%s row.Purchased.Time.Format("2006-01-02") %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+{% endfunc %}
