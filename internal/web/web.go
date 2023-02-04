@@ -3,6 +3,8 @@ package web
 import (
 	"context"
 	"database/sql"
+	"embed"
+	"io/fs"
 	"net"
 	"net/http"
 
@@ -37,6 +39,19 @@ var mediumMap map[string]models.Medium = map[string]models.Medium{
 	"cassette": models.MediumCassette,
 }
 
+//go:embed static
+var static embed.FS
+
+var staticDir fs.FS
+
+func init() {
+	var err error
+	staticDir, err = fs.Sub(static, "static")
+	if err != nil {
+		panic(err)
+	}
+}
+
 func (s *Server) Run(ctx context.Context) error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -48,8 +63,13 @@ func (s *Server) Run(ctx context.Context) error {
 	r.Use(s.recoverer)
 
 	r.Get("/", s.index)
-
+	r.Get("/about", s.about)
 	r.Route("/admin", s.routeAdmin)
+
+	r.NotFound(s.notFound)
+
+	r.Handle("/static/*", http.StripPrefix("/static", http.FileServer(http.FS(staticDir))))
+	r.Handle("/favicon.ico", http.RedirectHandler("/static/favicon.ico", http.StatusFound))
 
 	srv := http.Server{
 		Addr:        s.Addr,
@@ -99,6 +119,14 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func (s *Server) about(w http.ResponseWriter, r *http.Request) {
+	templates.WritePageTemplate(w, &templates.Aboutpage{})
+}
+
+func (s *Server) notFound(w http.ResponseWriter, r *http.Request) {
+	s.statusPage(w, "uh oh!!!!", "Huh what?", "The requested resource ain't here")
+}
+
 func (s *Server) unauthorized(w http.ResponseWriter, header bool) {
 	if header {
 		w.Header().Add("WWW-Authenticate", `Basic realm="turnttable"`)
@@ -110,11 +138,7 @@ func (s *Server) unauthorized(w http.ResponseWriter, header bool) {
 
 func (s *Server) internalError(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
-	templates.WritePageTemplate(w, &templates.StatusPage{
-		PageTitle: "uh oh sisters",
-		Header:    "idk man, I think it's your catalytic converter",
-		Subtitle:  "An internal server error has occurred, try again later",
-	})
+	s.statusPage(w, "uh oh sisters", "idk man, I think it's your catalytic converter", "An internal server error has occurred, try again later")
 }
 
 func (s *Server) statusPage(w http.ResponseWriter, title, header, subtitle string) {

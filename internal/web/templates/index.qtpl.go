@@ -20,174 +20,239 @@ var (
 	_ = qt422016.AcquireByteBuffer
 )
 
+//line internal/web/templates/index.qtpl:3
+func streamformatMedium(qw422016 *qt422016.Writer, m models.Medium) {
+//line internal/web/templates/index.qtpl:3
+	qw422016.N().S(`
+    `)
 //line internal/web/templates/index.qtpl:4
+	if m == models.MediumCD {
+//line internal/web/templates/index.qtpl:4
+		qw422016.N().S(`
+        CD
+    `)
+//line internal/web/templates/index.qtpl:6
+	} else if m == models.MediumVinyl {
+//line internal/web/templates/index.qtpl:6
+		qw422016.N().S(`
+        Vinyl
+    `)
+//line internal/web/templates/index.qtpl:8
+	} else {
+//line internal/web/templates/index.qtpl:8
+		qw422016.N().S(`
+        Cassette
+    `)
+//line internal/web/templates/index.qtpl:10
+	}
+//line internal/web/templates/index.qtpl:10
+	qw422016.N().S(`
+`)
+//line internal/web/templates/index.qtpl:11
+}
+
+//line internal/web/templates/index.qtpl:11
+func writeformatMedium(qq422016 qtio422016.Writer, m models.Medium) {
+//line internal/web/templates/index.qtpl:11
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line internal/web/templates/index.qtpl:11
+	streamformatMedium(qw422016, m)
+//line internal/web/templates/index.qtpl:11
+	qt422016.ReleaseWriter(qw422016)
+//line internal/web/templates/index.qtpl:11
+}
+
+//line internal/web/templates/index.qtpl:11
+func formatMedium(m models.Medium) string {
+//line internal/web/templates/index.qtpl:11
+	qb422016 := qt422016.AcquireByteBuffer()
+//line internal/web/templates/index.qtpl:11
+	writeformatMedium(qb422016, m)
+//line internal/web/templates/index.qtpl:11
+	qs422016 := string(qb422016.B)
+//line internal/web/templates/index.qtpl:11
+	qt422016.ReleaseByteBuffer(qb422016)
+//line internal/web/templates/index.qtpl:11
+	return qs422016
+//line internal/web/templates/index.qtpl:11
+}
+
+//line internal/web/templates/index.qtpl:14
 type IndexPage struct {
 	BasePage
 	Rows models.RecordSlice
 }
 
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 func (p *IndexPage) StreamTitle(qw422016 *qt422016.Writer) {
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 	qw422016.N().S(`Home`)
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 }
 
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 func (p *IndexPage) WriteTitle(qq422016 qtio422016.Writer) {
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 	p.StreamTitle(qw422016)
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 }
 
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 func (p *IndexPage) Title() string {
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 	p.WriteTitle(qb422016)
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 	qs422016 := string(qb422016.B)
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 	return qs422016
-//line internal/web/templates/index.qtpl:10
+//line internal/web/templates/index.qtpl:20
 }
 
-//line internal/web/templates/index.qtpl:12
-func (p *IndexPage) StreamMeta(qw422016 *qt422016.Writer) {
-//line internal/web/templates/index.qtpl:12
-}
-
-//line internal/web/templates/index.qtpl:12
-func (p *IndexPage) WriteMeta(qq422016 qtio422016.Writer) {
-//line internal/web/templates/index.qtpl:12
-	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/index.qtpl:12
-	p.StreamMeta(qw422016)
-//line internal/web/templates/index.qtpl:12
-	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/index.qtpl:12
-}
-
-//line internal/web/templates/index.qtpl:12
-func (p *IndexPage) Meta() string {
-//line internal/web/templates/index.qtpl:12
-	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/index.qtpl:12
-	p.WriteMeta(qb422016)
-//line internal/web/templates/index.qtpl:12
-	qs422016 := string(qb422016.B)
-//line internal/web/templates/index.qtpl:12
-	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/index.qtpl:12
-	return qs422016
-//line internal/web/templates/index.qtpl:12
-}
-
-//line internal/web/templates/index.qtpl:14
+//line internal/web/templates/index.qtpl:22
 func (p *IndexPage) StreamBody(qw422016 *qt422016.Writer) {
-//line internal/web/templates/index.qtpl:14
+//line internal/web/templates/index.qtpl:22
 	qw422016.N().S(`
-<table id="turnt-table" class="table is-fullwidth">
-                <thead>
-                    <tr>
-                        <th><abbr title="Position">Pos</abbr></th>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Label</th>
-                        <th><abbr title="Catalogue Number">CN</abbr></th>
-                        <th>Genre</th>
-                        <th>Released</th>
-                        <th>Purchased</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    `)
-//line internal/web/templates/index.qtpl:29
-	for i, row := range p.Rows {
-//line internal/web/templates/index.qtpl:29
-		qw422016.N().S(`
-                        <tr>
-                            <td>`)
-//line internal/web/templates/index.qtpl:31
-		qw422016.N().D(i)
-//line internal/web/templates/index.qtpl:31
-		qw422016.N().S(`</td>
-                            <td>`)
-//line internal/web/templates/index.qtpl:32
-		qw422016.E().S(row.Title)
-//line internal/web/templates/index.qtpl:32
-		qw422016.N().S(`</td>
-                            <td>`)
-//line internal/web/templates/index.qtpl:33
-		qw422016.E().S(row.Artist)
-//line internal/web/templates/index.qtpl:33
-		qw422016.N().S(`</td>
-                            <td>`)
-//line internal/web/templates/index.qtpl:34
-		qw422016.E().S(row.Label)
-//line internal/web/templates/index.qtpl:34
-		qw422016.N().S(`</td>
-                            <td>`)
-//line internal/web/templates/index.qtpl:35
-		qw422016.E().S(row.CN)
-//line internal/web/templates/index.qtpl:35
-		qw422016.N().S(`</td>
-                            <td>`)
-//line internal/web/templates/index.qtpl:36
-		qw422016.E().S(row.Genre)
-//line internal/web/templates/index.qtpl:36
-		qw422016.N().S(`</td>
-                            <td>`)
-//line internal/web/templates/index.qtpl:37
-		qw422016.E().S(row.Released.Format("2006-01-02"))
-//line internal/web/templates/index.qtpl:37
-		qw422016.N().S(`</td>
-                            <td>`)
-//line internal/web/templates/index.qtpl:38
-		qw422016.E().S(row.Purchased.Time.Format("2006-01-02"))
-//line internal/web/templates/index.qtpl:38
-		qw422016.N().S(`</td>
-                        </tr>
-                    `)
-//line internal/web/templates/index.qtpl:40
-	}
-//line internal/web/templates/index.qtpl:40
-	qw422016.N().S(`
-                </tbody>
-            </table>
+<div id="buttons" class="field is-grouped is-grouped-right">
+    <p class="control">
+        <a class="button is-primary" href="/?filter=cd">CDs</a>
+    </p>
+    <p class="control">
+        <a class="button is-primary" href="/?filter=vinyl">Vinyl</a>
+    </p>
+    <p class="control">
+        <a class="button is-primary" href="/?filter=cassette">Tape</a>
+    </p>
+</div>
 `)
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:34
+	if len(p.Rows) == 0 {
+//line internal/web/templates/index.qtpl:34
+		qw422016.N().S(`
+    <nav class="level">
+        <div class="level-item has-text-centered">
+            <p class="title has-text-white is-size-3">No rows... wtf!!!</p>
+        </div>
+    </nav>
+`)
+//line internal/web/templates/index.qtpl:40
+	} else {
+//line internal/web/templates/index.qtpl:40
+		qw422016.N().S(`
+    <div class="table-container">
+        <table id="turnt-table" class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th><abbr title="Position">Pos</abbr></th>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Label</th>
+                    <th><abbr title="Catalogue Number">CN</abbr></th>
+                    <th>Genre</th>
+                    <th>Medium</th>
+                    <th>Released</th>
+                    <th>Purchased</th>
+                </tr>
+            </thead>
+            <tbody>
+                `)
+//line internal/web/templates/index.qtpl:57
+		for i, row := range p.Rows {
+//line internal/web/templates/index.qtpl:57
+			qw422016.N().S(`
+                    <tr>
+                        <td>`)
+//line internal/web/templates/index.qtpl:59
+			qw422016.N().D(i + 1)
+//line internal/web/templates/index.qtpl:59
+			qw422016.N().S(`</td>
+                        <td>`)
+//line internal/web/templates/index.qtpl:60
+			qw422016.E().S(row.Title)
+//line internal/web/templates/index.qtpl:60
+			qw422016.N().S(`</td>
+                        <td>`)
+//line internal/web/templates/index.qtpl:61
+			qw422016.E().S(row.Artist)
+//line internal/web/templates/index.qtpl:61
+			qw422016.N().S(`</td>
+                        <td>`)
+//line internal/web/templates/index.qtpl:62
+			qw422016.E().S(row.Label)
+//line internal/web/templates/index.qtpl:62
+			qw422016.N().S(`</td>
+                        <td>`)
+//line internal/web/templates/index.qtpl:63
+			qw422016.E().S(row.CN)
+//line internal/web/templates/index.qtpl:63
+			qw422016.N().S(`</td>
+                        <td>`)
+//line internal/web/templates/index.qtpl:64
+			qw422016.E().S(row.Genre)
+//line internal/web/templates/index.qtpl:64
+			qw422016.N().S(`</td>
+                        <td>`)
+//line internal/web/templates/index.qtpl:65
+			qw422016.N().S(formatMedium(row.Medium))
+//line internal/web/templates/index.qtpl:65
+			qw422016.N().S(`</td>
+                        <td>`)
+//line internal/web/templates/index.qtpl:66
+			qw422016.E().S(row.Released.Format("2006-01-02"))
+//line internal/web/templates/index.qtpl:66
+			qw422016.N().S(`</td>
+                        <td>`)
+//line internal/web/templates/index.qtpl:67
+			qw422016.E().S(row.Purchased.Time.Format("2006-01-02"))
+//line internal/web/templates/index.qtpl:67
+			qw422016.N().S(`</td>
+                    </tr>
+                `)
+//line internal/web/templates/index.qtpl:69
+		}
+//line internal/web/templates/index.qtpl:69
+		qw422016.N().S(`
+            </tbody>
+        </table>
+    </div>
+`)
+//line internal/web/templates/index.qtpl:73
+	}
+//line internal/web/templates/index.qtpl:73
+	qw422016.N().S(`
+`)
+//line internal/web/templates/index.qtpl:74
 }
 
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 func (p *IndexPage) WriteBody(qq422016 qtio422016.Writer) {
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 	p.StreamBody(qw422016)
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 }
 
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 func (p *IndexPage) Body() string {
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 	p.WriteBody(qb422016)
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 	qs422016 := string(qb422016.B)
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 	return qs422016
-//line internal/web/templates/index.qtpl:43
+//line internal/web/templates/index.qtpl:74
 }

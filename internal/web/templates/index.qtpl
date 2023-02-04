@@ -1,5 +1,15 @@
 {% import "github.com/holedaemon/turnttable/internal/db/models" %}
 
+{% func formatMedium(m models.Medium) %}
+    {% if m == models.MediumCD %}
+        CD
+    {% elseif m == models.MediumVinyl %}
+        Vinyl
+    {% else %}
+        Cassette
+    {% endif %}
+{% endfunc %}
+
 {% code
 type IndexPage struct {
     BasePage
@@ -9,35 +19,56 @@ type IndexPage struct {
 
 {% func (p *IndexPage) Title() %}Home{% endfunc %}
 
-{% func (p *IndexPage) Meta() %}{% endfunc %}
-
 {% func (p *IndexPage) Body() %}
-<table id="turnt-table" class="table is-fullwidth">
-                <thead>
+<div id="buttons" class="field is-grouped is-grouped-right">
+    <p class="control">
+        <a class="button is-primary" href="/?filter=cd">CDs</a>
+    </p>
+    <p class="control">
+        <a class="button is-primary" href="/?filter=vinyl">Vinyl</a>
+    </p>
+    <p class="control">
+        <a class="button is-primary" href="/?filter=cassette">Tape</a>
+    </p>
+</div>
+{% if len(p.Rows) == 0 %}
+    <nav class="level">
+        <div class="level-item has-text-centered">
+            <p class="title has-text-white is-size-3">No rows... wtf!!!</p>
+        </div>
+    </nav>
+{% else %}
+    <div class="table-container">
+        <table id="turnt-table" class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th><abbr title="Position">Pos</abbr></th>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Label</th>
+                    <th><abbr title="Catalogue Number">CN</abbr></th>
+                    <th>Genre</th>
+                    <th>Medium</th>
+                    <th>Released</th>
+                    <th>Purchased</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i, row := range p.Rows %}
                     <tr>
-                        <th><abbr title="Position">Pos</abbr></th>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Label</th>
-                        <th><abbr title="Catalogue Number">CN</abbr></th>
-                        <th>Genre</th>
-                        <th>Released</th>
-                        <th>Purchased</th>
+                        <td>{%d i + 1 %}</td>
+                        <td>{%s row.Title %}</td>
+                        <td>{%s row.Artist %}</td>
+                        <td>{%s row.Label %}</td>
+                        <td>{%s row.CN %}</td>
+                        <td>{%s row.Genre %}</td>
+                        <td>{%s= formatMedium(row.Medium) %}</td>
+                        <td>{%s row.Released.Format("2006-01-02") %}</td>
+                        <td>{%s row.Purchased.Time.Format("2006-01-02") %}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for i, row := range p.Rows %}
-                        <tr>
-                            <td>{%d i %}</td>
-                            <td>{%s row.Title %}</td>
-                            <td>{%s row.Artist %}</td>
-                            <td>{%s row.Label %}</td>
-                            <td>{%s row.CN %}</td>
-                            <td>{%s row.Genre %}</td>
-                            <td>{%s row.Released.Format("2006-01-02") %}</td>
-                            <td>{%s row.Purchased.Time.Format("2006-01-02") %}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
 {% endfunc %}

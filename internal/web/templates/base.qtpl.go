@@ -32,18 +32,13 @@ type Page interface {
 //line internal/web/templates/base.qtpl:1
 	WriteBody(qq422016 qtio422016.Writer)
 //line internal/web/templates/base.qtpl:1
-	Meta() string
-//line internal/web/templates/base.qtpl:1
-	StreamMeta(qw422016 *qt422016.Writer)
-//line internal/web/templates/base.qtpl:1
-	WriteMeta(qq422016 qtio422016.Writer)
-//line internal/web/templates/base.qtpl:1
 }
 
-//line internal/web/templates/base.qtpl:8
+//line internal/web/templates/base.qtpl:7
 func StreamPageTemplate(qw422016 *qt422016.Writer, p Page) {
-//line internal/web/templates/base.qtpl:8
+//line internal/web/templates/base.qtpl:7
 	qw422016.N().S(`
+<!DOCTYPE html>
 <html class="has-background-dark has-text-light">
     <head>
         <title>turnttable &bull; `)
@@ -52,14 +47,29 @@ func StreamPageTemplate(qw422016 *qt422016.Writer, p Page) {
 //line internal/web/templates/base.qtpl:11
 	qw422016.N().S(`</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+        <link rel="manifest" href="/static/site.webmanifest">
+        <link rel="mask-icon" href="/static/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="/static/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="/static/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
 
-        `)
-//line internal/web/templates/base.qtpl:16
-	p.StreamMeta(qw422016)
-//line internal/web/templates/base.qtpl:16
-	qw422016.N().S(`
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@holedaemon">
+        <meta name="twitter:creator" content="@holedaemon">
+        <meta name="twitter:description" content="A place for all the ladies to ogle my music collection">
+        <meta name="twitter:title" content="turnttable">
+
+        <meta property="og:title" content="turnttable">
+        <meta property="og:description" content="A place for all the ladies to ogle my music collection">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="/static/hsuhao.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/static/turnttable.css">
     </head>
     <body>
         <div class="container">
@@ -83,108 +93,108 @@ func StreamPageTemplate(qw422016 *qt422016.Writer, p Page) {
             </nav>
 
             `)
-//line internal/web/templates/base.qtpl:39
+//line internal/web/templates/base.qtpl:58
 	p.StreamBody(qw422016)
-//line internal/web/templates/base.qtpl:39
+//line internal/web/templates/base.qtpl:58
 	qw422016.N().S(`
         </div>
     </body>
 </html>
 `)
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 }
 
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 func WritePageTemplate(qq422016 qtio422016.Writer, p Page) {
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 	StreamPageTemplate(qw422016, p)
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 }
 
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 func PageTemplate(p Page) string {
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 	WritePageTemplate(qb422016, p)
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 	qs422016 := string(qb422016.B)
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 	return qs422016
-//line internal/web/templates/base.qtpl:43
+//line internal/web/templates/base.qtpl:62
 }
 
-//line internal/web/templates/base.qtpl:45
+//line internal/web/templates/base.qtpl:64
 type BasePage struct{}
 
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 func (p *BasePage) StreamTitle(qw422016 *qt422016.Writer) {
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 	qw422016.N().S(` `)
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 }
 
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 func (p *BasePage) WriteTitle(qq422016 qtio422016.Writer) {
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 	p.StreamTitle(qw422016)
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 }
 
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 func (p *BasePage) Title() string {
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 	p.WriteTitle(qb422016)
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 	qs422016 := string(qb422016.B)
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 	return qs422016
-//line internal/web/templates/base.qtpl:46
+//line internal/web/templates/base.qtpl:65
 }
 
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 func (p *BasePage) StreamBody(qw422016 *qt422016.Writer) {
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 	qw422016.N().S(` `)
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 }
 
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 func (p *BasePage) WriteBody(qq422016 qtio422016.Writer) {
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 	p.StreamBody(qw422016)
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 }
 
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 func (p *BasePage) Body() string {
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 	p.WriteBody(qb422016)
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 	qs422016 := string(qb422016.B)
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 	return qs422016
-//line internal/web/templates/base.qtpl:47
+//line internal/web/templates/base.qtpl:66
 }

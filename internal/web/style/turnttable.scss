@@ -12,8 +12,6 @@ $scheme-main-bis: $black-bis;
 $scheme-main-ter: $black-ter;
 $blue: hsl(228, 71%, 44%);
 
-$primary: $blue;
-
 $border: $white;
 $border-hover: color.scale($border, $lightness: -10%);
 
@@ -26,7 +24,40 @@ $table-foot-cell-color: $white;
 @import "bulma/sass/utilities/_all.sass";
 @import "bulma/sass/base/_all.sass";
 @import "bulma/sass/components/navbar.sass";
-@import "bulma/sass/form/_all.sass";
 @import "bulma/sass/elements/container.sass";
 @import "bulma/sass/elements/table.sass";
+@import "bulma/sass/elements/button.sass";
+@import "bulma/sass/elements/title.sass";
+@import "bulma/sass/layout/hero.sass";
 @import "bulma/sass/helpers/_all.sass";
+@import "bulma/sass/utilities/mixins.sass";
+@import "bulma/sass/grid/columns.sass";
+
+$input-color: $white;
+$input-placeholder-color: $grey-light;
+$input-hover-color: $grey;
+$input-focus-color: $white;
+$input-focus-border-color: $primary;
+$input-arrow: $primary;
+$input-focus-box-shadow-color: rgba($primary, 0.25);
+
+@import "bulma/sass/form/_all.sass";
+
+::placeholder {
+    opacity: 1;
+}
+
+#img-profile {
+    border-radius: 10px;
+}
+
+#about-hr {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+
+@include touch {
+    #buttons {
+        margin-right: 0.5rem;
+    }
+}

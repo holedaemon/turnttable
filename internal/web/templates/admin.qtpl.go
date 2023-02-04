@@ -56,39 +56,8 @@ func (p *AdminPage) Title() string {
 }
 
 //line internal/web/templates/admin.qtpl:9
-func (p *AdminPage) StreamMeta(qw422016 *qt422016.Writer) {
-//line internal/web/templates/admin.qtpl:9
-}
-
-//line internal/web/templates/admin.qtpl:9
-func (p *AdminPage) WriteMeta(qq422016 qtio422016.Writer) {
-//line internal/web/templates/admin.qtpl:9
-	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/admin.qtpl:9
-	p.StreamMeta(qw422016)
-//line internal/web/templates/admin.qtpl:9
-	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/admin.qtpl:9
-}
-
-//line internal/web/templates/admin.qtpl:9
-func (p *AdminPage) Meta() string {
-//line internal/web/templates/admin.qtpl:9
-	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/admin.qtpl:9
-	p.WriteMeta(qb422016)
-//line internal/web/templates/admin.qtpl:9
-	qs422016 := string(qb422016.B)
-//line internal/web/templates/admin.qtpl:9
-	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/admin.qtpl:9
-	return qs422016
-//line internal/web/templates/admin.qtpl:9
-}
-
-//line internal/web/templates/admin.qtpl:11
 func (p *AdminPage) StreamBody(qw422016 *qt422016.Writer) {
-//line internal/web/templates/admin.qtpl:11
+//line internal/web/templates/admin.qtpl:9
 	qw422016.N().S(`
 <form method="post">
     <div class="columns is-multiline mx-1">
@@ -167,38 +136,38 @@ func (p *AdminPage) StreamBody(qw422016 *qt422016.Writer) {
         <div class="column is-one-quarter">
             <div class="field">
                 <div class="control">
-                    <button class="button is-black">Submit</button>
+                    <button class="button is-primary">Submit</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
 `)
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 }
 
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 func (p *AdminPage) WriteBody(qq422016 qtio422016.Writer) {
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 	p.StreamBody(qw422016)
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 }
 
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 func (p *AdminPage) Body() string {
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 	p.WriteBody(qb422016)
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 	qs422016 := string(qb422016.B)
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 	return qs422016
-//line internal/web/templates/admin.qtpl:95
+//line internal/web/templates/admin.qtpl:93
 }

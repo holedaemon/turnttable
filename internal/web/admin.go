@@ -59,9 +59,10 @@ func (s *Server) postAdmin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	title := r.FormValue("title")
+	medium := mediumMap[strings.ToLower(r.FormValue("medium"))]
 
 	exists, err := models.Records(
-		qm.Where("title ILIKE ?", title),
+		qm.Where("title ILIKE ? AND medium = ?", title, medium),
 	).Exists(ctx, s.DB)
 	if err != nil {
 		ctxlog.Error(ctx, "error querying for record", zap.Error(err))
@@ -99,7 +100,7 @@ func (s *Server) postAdmin(w http.ResponseWriter, r *http.Request) {
 		Genre:     r.FormValue("genre"),
 		Released:  rt,
 		Purchased: null.TimeFrom(pt),
-		Medium:    mediumMap[strings.ToLower(r.FormValue("medium"))],
+		Medium:    medium,
 	}
 
 	if err := record.Insert(ctx, s.DB, boil.Infer()); err != nil {

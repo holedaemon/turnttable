@@ -6,8 +6,6 @@ type AdminPage struct {
 
 {% func (p *AdminPage) Title() %}Admin{% endfunc %}
 
-{% func (p *AdminPage) Meta() %}{% endfunc %}
-
 {% func (p *AdminPage) Body() %}
 <form method="post">
     <div class="columns is-multiline mx-1">
@@ -86,7 +84,7 @@ type AdminPage struct {
         <div class="column is-one-quarter">
             <div class="field">
                 <div class="control">
-                    <button class="button is-black">Submit</button>
+                    <button class="button is-primary">Submit</button>
                 </div>
             </div>
         </div>

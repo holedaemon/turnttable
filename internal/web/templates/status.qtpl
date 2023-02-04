@@ -9,10 +9,8 @@ type StatusPage struct {
 
 {% func (p *StatusPage) Title() %}{%s p.PageTitle %}{% endfunc %}
 
-{% func (p *StatusPage) Meta() %}{% endfunc %}
-
 {% func (p *StatusPage) Body() %}
-<section class="hero is-dark">
+<section class="hero is-black">
     <div class="hero-body">
         <p class="title">{%s p.Header %}</p>
         <p class="subtitle">{%s p.Subtitle %}</p>

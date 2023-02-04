@@ -59,80 +59,49 @@ func (p *StatusPage) Title() string {
 }
 
 //line internal/web/templates/status.qtpl:12
-func (p *StatusPage) StreamMeta(qw422016 *qt422016.Writer) {
-//line internal/web/templates/status.qtpl:12
-}
-
-//line internal/web/templates/status.qtpl:12
-func (p *StatusPage) WriteMeta(qq422016 qtio422016.Writer) {
-//line internal/web/templates/status.qtpl:12
-	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/status.qtpl:12
-	p.StreamMeta(qw422016)
-//line internal/web/templates/status.qtpl:12
-	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/status.qtpl:12
-}
-
-//line internal/web/templates/status.qtpl:12
-func (p *StatusPage) Meta() string {
-//line internal/web/templates/status.qtpl:12
-	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/status.qtpl:12
-	p.WriteMeta(qb422016)
-//line internal/web/templates/status.qtpl:12
-	qs422016 := string(qb422016.B)
-//line internal/web/templates/status.qtpl:12
-	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/status.qtpl:12
-	return qs422016
-//line internal/web/templates/status.qtpl:12
-}
-
-//line internal/web/templates/status.qtpl:14
 func (p *StatusPage) StreamBody(qw422016 *qt422016.Writer) {
-//line internal/web/templates/status.qtpl:14
+//line internal/web/templates/status.qtpl:12
 	qw422016.N().S(`
-<section class="hero is-dark">
+<section class="hero is-black">
     <div class="hero-body">
         <p class="title">`)
-//line internal/web/templates/status.qtpl:17
+//line internal/web/templates/status.qtpl:15
 	qw422016.E().S(p.Header)
-//line internal/web/templates/status.qtpl:17
+//line internal/web/templates/status.qtpl:15
 	qw422016.N().S(`</p>
         <p class="subtitle">`)
-//line internal/web/templates/status.qtpl:18
+//line internal/web/templates/status.qtpl:16
 	qw422016.E().S(p.Subtitle)
-//line internal/web/templates/status.qtpl:18
+//line internal/web/templates/status.qtpl:16
 	qw422016.N().S(`</p>
     </div>
 </section>
 `)
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 }
 
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 func (p *StatusPage) WriteBody(qq422016 qtio422016.Writer) {
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 	p.StreamBody(qw422016)
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 	qt422016.ReleaseWriter(qw422016)
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 }
 
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 func (p *StatusPage) Body() string {
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 	qb422016 := qt422016.AcquireByteBuffer()
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 	p.WriteBody(qb422016)
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 	qs422016 := string(qb422016.B)
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 	qt422016.ReleaseByteBuffer(qb422016)
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 	return qs422016
-//line internal/web/templates/status.qtpl:21
+//line internal/web/templates/status.qtpl:19
 }
