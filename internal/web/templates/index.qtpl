@@ -22,6 +22,9 @@ type IndexPage struct {
 {% func (p *IndexPage) Body() %}
 <div id="buttons" class="field is-grouped is-grouped-right">
     <p class="control">
+        <a class="button is-primary" href="/?filter=all">All</a>
+    </p>
+    <p class="control">
         <a class="button is-primary" href="/?filter=cd">CDs</a>
     </p>
     <p class="control">
