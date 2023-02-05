@@ -24,13 +24,10 @@ type Server struct {
 }
 
 /*
--	Index page
--	Index page DB rows
--	Admin page
--	Admin page form POST
--	Admin page basic auth
--	Static
--	NotFound
+Admin insert page
+Admin bulk insert page
+Admin delete page
+Admin edit page
 */
 
 var mediumMap map[string]models.Medium = map[string]models.Medium{
@@ -121,30 +118,4 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) about(w http.ResponseWriter, r *http.Request) {
 	templates.WritePageTemplate(w, &templates.Aboutpage{})
-}
-
-func (s *Server) notFound(w http.ResponseWriter, r *http.Request) {
-	s.statusPage(w, "uh oh!!!!", "Huh what?", "The requested resource ain't here")
-}
-
-func (s *Server) unauthorized(w http.ResponseWriter, header bool) {
-	if header {
-		w.Header().Add("WWW-Authenticate", `Basic realm="turnttable"`)
-	}
-
-	w.WriteHeader(http.StatusUnauthorized)
-	s.statusPage(w, "Oh Uh", "LOL HOW ARE YOU SO SMALL???", "You need special pants to open this door (Unauthorized)")
-}
-
-func (s *Server) internalError(w http.ResponseWriter) {
-	w.WriteHeader(http.StatusInternalServerError)
-	s.statusPage(w, "uh oh sisters", "idk man, I think it's your catalytic converter", "An internal server error has occurred, try again later")
-}
-
-func (s *Server) statusPage(w http.ResponseWriter, title, header, subtitle string) {
-	templates.WritePageTemplate(w, &templates.StatusPage{
-		PageTitle: title,
-		Header:    header,
-		Subtitle:  subtitle,
-	})
 }

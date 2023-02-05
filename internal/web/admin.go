@@ -1,6 +1,7 @@
 package web
 
 import (
+	"encoding/csv"
 	"net/http"
 	"strings"
 	"time"
@@ -18,8 +19,11 @@ import (
 func (s *Server) routeAdmin(r chi.Router) {
 	r.Use(s.adminAuth)
 
-	r.Get("/", s.admin)
-	r.Post("/", s.postAdmin)
+	r.Get("/insert", s.adminInsert)
+	r.Post("/insert", s.postAdminInsert)
+
+	r.Get("/insert/bulk", s.adminBulkInsert)
+	r.Post("/insert/bulk", s.postAdminBulkInsert)
 }
 
 func (s *Server) adminAuth(next http.Handler) http.Handler {
@@ -45,11 +49,11 @@ func (s *Server) adminAuth(next http.Handler) http.Handler {
 	})
 }
 
-func (s *Server) admin(w http.ResponseWriter, r *http.Request) {
+func (s *Server) adminInsert(w http.ResponseWriter, r *http.Request) {
 	templates.WritePageTemplate(w, &templates.AdminPage{})
 }
 
-func (s *Server) postAdmin(w http.ResponseWriter, r *http.Request) {
+func (s *Server) postAdminInsert(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	if err := r.ParseForm(); err != nil {
@@ -81,14 +85,14 @@ func (s *Server) postAdmin(w http.ResponseWriter, r *http.Request) {
 	rt, err := time.Parse("2006-01-02", released)
 	if err != nil {
 		ctxlog.Error(ctx, "error parsing release time", zap.Error(err))
-		s.internalError(w)
+		s.badRequest(w, "Release time formatting is bad")
 		return
 	}
 
 	pt, err := time.Parse("2006-01-02", pur)
 	if err != nil {
 		ctxlog.Error(ctx, "error parsing purchase time", zap.Error(err))
-		s.internalError(w)
+		s.badRequest(w, "Purchased time formatting is bad")
 		return
 	}
 
@@ -110,4 +114,77 @@ func (s *Server) postAdmin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	s.statusPage(w, "New Record", "wow okay cool", "Record has been inserted")
+}
+
+func (s *Server) adminBulkInsert(w http.ResponseWriter, r *http.Request) {
+	templates.WritePageTemplate(w, &templates.AdminBulkInsertPage{})
+}
+
+func (s *Server) postAdminBulkInsert(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	r.ParseMultipartForm(10 << 20)
+
+	file, _, err := r.FormFile("records")
+	if err != nil {
+		ctxlog.Error(ctx, "retrieving form file", zap.Error(err))
+		s.internalError(w)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	rows, err := reader.ReadAll()
+	if err != nil {
+		ctxlog.Error(ctx, "reading every row", zap.Error(err))
+		s.internalError(w)
+		return
+	}
+
+	for idx, row := range rows {
+		if idx == 0 {
+			if !checkHeaderOrder(row) {
+				s.badRequest(w, "Wrong CSV row order. Fix it and try again, idiot")
+				return
+			}
+
+			continue
+		}
+
+		released := row[5]
+		pur := row[6]
+
+		rt, err := time.Parse("2006-01-02", released)
+		if err != nil {
+			ctxlog.Error(ctx, "error parsing release time", zap.Error(err))
+			s.badRequest(w, "Release time formatting is bad")
+			return
+		}
+
+		pt, err := time.Parse("2006-01-02", pur)
+		if err != nil {
+			ctxlog.Error(ctx, "error parsing purchase time", zap.Error(err))
+			s.badRequest(w, "Purchased time formatting is bad")
+			return
+		}
+
+		record := &models.Record{
+			Title:     row[0],
+			Artist:    row[1],
+			Label:     row[2],
+			CN:        row[3],
+			Genre:     row[4],
+			Released:  rt,
+			Purchased: null.TimeFrom(pt),
+			Medium:    mediumMap[strings.ToLower(row[7])],
+		}
+
+		if err := record.Insert(ctx, s.DB, boil.Infer()); err != nil {
+			ctxlog.Error(ctx, "error inserting record into database", zap.Error(err))
+			s.internalError(w)
+			return
+		}
+	}
+
+	s.statusPage(w, "yay dood", "Wow cool okay", "Bulk insert has completed")
 }
