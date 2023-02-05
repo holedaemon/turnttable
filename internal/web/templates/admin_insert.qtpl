@@ -1,12 +1,12 @@
 {% code
-type AdminPage struct {
+type AdminInsertPage struct {
     BasePage
 }
 %}
 
-{% func (p *AdminPage) Title() %}Admin{% endfunc %}
+{% func (p *AdminInsertPage) Title() %}Admin{% endfunc %}
 
-{% func (p *AdminPage) Body() %}
+{% func (p *AdminInsertPage) Body() %}
 <form method="post">
     <div class="columns is-multiline mx-1">
         <div class="column is-half">

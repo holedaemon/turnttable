@@ -70,7 +70,7 @@ func (p *Aboutpage) StreamBody(qw422016 *qt422016.Writer) {
                 Founded in the year 1920 by the beautiful man seen on the left, TURNTTABLE ENTERPRISES LLC has grown to become the lead supplier in high-quality, harmful microplastics, made specifically for human consumption. It's the hope, dream, and promise of TURNTTABLE ENTERPRISES LLC founder Bald Hsu Hao that each and every customer of TURNTTABLE ENTERPRISES LLC experience any kind of health complications as result of consuming TURNTTABLE ENTERPRISES LLC microplastics.
             </p>
             <p class="has-text-white">
-                In reality, turnttable is a website made by <a class="has-text-primary" href="https://holedaemon.net">holedaemon</a> to track the physical music <span id="about-pronouns">they</span> <span id="about-owns">own</span>. The source code is on <a class="has-text-primary" href="https://github.com/holedaemon/turnttable">GitHub</a>.
+                In reality, turnttable is a website made by <a class="has-text-primary" href="https://holedaemon.net" target="_blank">holedaemon</a> to track the physical music <span id="about-pronouns">they</span> <span id="about-owns">own</span>. It would have not been possible without input from <a href="https://twitter.com/addylinear" class="has-text-primary" target="_blank">AddyLinear</a>, who also provided an ear for my constant bitching about modern web development. The source code is on <a class="has-text-primary" href="https://github.com/holedaemon/turnttable" target="_blank">GitHub</a>.
             </p>
         </div>
     </div>

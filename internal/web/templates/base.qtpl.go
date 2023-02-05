@@ -41,11 +41,11 @@ func StreamPageTemplate(qw422016 *qt422016.Writer, p Page) {
 <!DOCTYPE html>
 <html class="has-background-dark has-text-light">
     <head>
-        <title>turnttable &bull; `)
+        <title>`)
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/base.qtpl:11
 	p.StreamTitle(qw422016)
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/base.qtpl:11
-	qw422016.N().S(`</title>
+	qw422016.N().S(` &bull; turnttable</title>
 
         <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">

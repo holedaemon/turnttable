@@ -21,6 +21,8 @@ import (
 func (s *Server) routeAdmin(r chi.Router) {
 	r.Use(s.adminAuth)
 
+	r.Get("/", s.admin)
+
 	r.Get("/insert", s.adminInsert)
 	r.Post("/insert", s.postAdminInsert)
 
@@ -32,6 +34,8 @@ func (s *Server) routeAdmin(r chi.Router) {
 
 	r.Get("/delete/{id}", s.adminDelete)
 	r.Post("/delete/{id}", s.postAdminDelete)
+
+	r.Get("/alter", s.adminAlter)
 }
 
 func (s *Server) adminAuth(next http.Handler) http.Handler {
@@ -57,8 +61,12 @@ func (s *Server) adminAuth(next http.Handler) http.Handler {
 	})
 }
 
-func (s *Server) adminInsert(w http.ResponseWriter, r *http.Request) {
+func (s *Server) admin(w http.ResponseWriter, r *http.Request) {
 	templates.WritePageTemplate(w, &templates.AdminPage{})
+}
+
+func (s *Server) adminInsert(w http.ResponseWriter, r *http.Request) {
+	templates.WritePageTemplate(w, &templates.AdminInsertPage{})
 }
 
 func (s *Server) postAdminInsert(w http.ResponseWriter, r *http.Request) {
@@ -134,6 +142,11 @@ func (s *Server) postAdminBulkInsert(w http.ResponseWriter, r *http.Request) {
 
 	file, _, err := r.FormFile("records")
 	if err != nil {
+		if errors.Is(err, http.ErrMissingFile) {
+			s.badRequest(w, "You didn't upload a file, doofus!!")
+			return
+		}
+
 		ctxlog.Error(ctx, "retrieving form file", zap.Error(err))
 		s.internalError(w)
 		return
@@ -145,7 +158,7 @@ func (s *Server) postAdminBulkInsert(w http.ResponseWriter, r *http.Request) {
 	rows, err := reader.ReadAll()
 	if err != nil {
 		ctxlog.Error(ctx, "reading every row", zap.Error(err))
-		s.internalError(w)
+		s.badRequest(w, "Whatever you uploaded is either malformed or not a CSV")
 		return
 	}
 
@@ -195,6 +208,37 @@ func (s *Server) postAdminBulkInsert(w http.ResponseWriter, r *http.Request) {
 	}
 
 	s.statusPage(w, "yay dood", "Wow cool okay", "Bulk insert has completed")
+}
+
+func (s *Server) adminAlter(w http.ResponseWriter, r *http.Request) {
+	rf := r.URL.Query().Get("filter")
+	filter := mediumMap[rf]
+	if filter == "" {
+		filter = "all"
+	}
+
+	ctx := r.Context()
+
+	var (
+		rows models.RecordSlice
+		err  error
+	)
+
+	if filter == "all" {
+		rows, err = models.Records().All(ctx, s.DB)
+	} else {
+		rows, err = models.Records(qm.Where("MEDIUM = ?", filter)).All(ctx, s.DB)
+	}
+
+	if err != nil {
+		ctxlog.Error(ctx, "error fetching rows", zap.Error(err))
+		s.internalError(w)
+		return
+	}
+
+	templates.WritePageTemplate(w, &templates.AdminAlterPage{
+		Rows: rows,
+	})
 }
 
 func (s *Server) adminEdit(w http.ResponseWriter, r *http.Request) {

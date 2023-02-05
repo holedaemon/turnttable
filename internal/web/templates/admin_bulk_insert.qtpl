@@ -8,26 +8,38 @@ type AdminBulkInsertPage struct {
 
 {% func (p *AdminBulkInsertPage) Body() %}
 <form method="post" enctype="multipart/form-data">
-    <div class="columns is-multiline is-centered is-mobile">
-        <div class="column is-full">
-            <div class="file is-boxed is-link is-centered">
+    <div class="columns is-multiline is-centered">
+        <div class="column is-narrow">
+            <div class="file is-boxed is-large is-link is-centered has-name mb-3">
                 <label class="file-label">
-                    <input class="file-input" type="file" name="records">
+                    <input id="file-selector" class="file-input" type="file" name="records" accept="text/csv">
                     <span class="file-cta">
                         <span class="file-label">
                             Choose a file...
                         </span>
                     </span>
+                    <span id="file-name" class="file-name has-text-centered">
+                        No file uploaded
+                    </span>
                 </label>
             </div>
         </div>
-        <div class="column is-narrow">
+        <div class="column is-full">
             <div class="field">
-                <div class="control">
+                <div class="control has-text-centered">
                     <button class="button is-primary">Submit</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
+<script>
+    const fileInput = document.getElementById("file-selector");
+    fileInput.onchange = () => {
+        if (fileInput.files.length > 0) {
+            const fileName = document.getElementById("file-name");
+            fileName.innerText = fileInput.files[0].name;
+        }
+    }
+</script>
 {% endfunc %}

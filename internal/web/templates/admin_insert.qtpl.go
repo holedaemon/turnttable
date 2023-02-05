@@ -18,19 +18,19 @@ var (
 )
 
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:2
-type AdminPage struct {
+type AdminInsertPage struct {
 	BasePage
 }
 
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:7
-func (p *AdminPage) StreamTitle(qw422016 *qt422016.Writer) {
+func (p *AdminInsertPage) StreamTitle(qw422016 *qt422016.Writer) {
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:7
 	qw422016.N().S(`Admin`)
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:7
 }
 
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:7
-func (p *AdminPage) WriteTitle(qq422016 qtio422016.Writer) {
+func (p *AdminInsertPage) WriteTitle(qq422016 qtio422016.Writer) {
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:7
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:7
@@ -41,7 +41,7 @@ func (p *AdminPage) WriteTitle(qq422016 qtio422016.Writer) {
 }
 
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:7
-func (p *AdminPage) Title() string {
+func (p *AdminInsertPage) Title() string {
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:7
 	qb422016 := qt422016.AcquireByteBuffer()
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:7
@@ -56,7 +56,7 @@ func (p *AdminPage) Title() string {
 }
 
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:9
-func (p *AdminPage) StreamBody(qw422016 *qt422016.Writer) {
+func (p *AdminInsertPage) StreamBody(qw422016 *qt422016.Writer) {
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:9
 	qw422016.N().S(`
 <form method="post">
@@ -147,7 +147,7 @@ func (p *AdminPage) StreamBody(qw422016 *qt422016.Writer) {
 }
 
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:93
-func (p *AdminPage) WriteBody(qq422016 qtio422016.Writer) {
+func (p *AdminInsertPage) WriteBody(qq422016 qtio422016.Writer) {
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:93
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:93
@@ -158,7 +158,7 @@ func (p *AdminPage) WriteBody(qq422016 qtio422016.Writer) {
 }
 
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:93
-func (p *AdminPage) Body() string {
+func (p *AdminInsertPage) Body() string {
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:93
 	qb422016 := qt422016.AcquireByteBuffer()
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_insert.qtpl:93

@@ -1,0 +1,71 @@
+{% import "github.com/holedaemon/turnttable/internal/db/models" %}
+
+{% code
+type AdminAlterPage struct {
+    BasePage
+    Rows models.RecordSlice
+}
+%}
+
+{% func (p *AdminAlterPage) Title() %}Alter Record{% endfunc %}
+
+{% func (p *AdminAlterPage) Body() %}
+<div id="buttons" class="field is-grouped is-grouped-right">
+    <p class="control">
+        <a class="button is-primary" href="?filter=all">All</a>
+    </p>
+    <p class="control">
+        <a class="button is-primary" href="?filter=cd">CDs</a>
+    </p>
+    <p class="control">
+        <a class="button is-primary" href="?filter=vinyl">Vinyl</a>
+    </p>
+    <p class="control">
+        <a class="button is-primary" href="?filter=cassette">Tape</a>
+    </p>
+</div>
+{% if len(p.Rows) == 0 %}
+    <nav class="level">
+        <div class="level-item has-text-centered">
+            <p class="title has-text-white is-size-3">No rows... wtf!!!</p>
+        </div>
+    </nav>
+{% else %}
+    <div class="table-container">
+        <table id="turnt-table" class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th><abbr title="Position">Pos</abbr></th>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Label</th>
+                    <th><abbr title="Catalogue Number">CN</abbr></th>
+                    <th>Genre</th>
+                    <th>Medium</th>
+                    <th>Released</th>
+                    <th>Purchased</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i, row := range p.Rows %}
+                    <tr>
+                        <td class="alter-td">{%d i + 1 %}</td>
+                        <td class="alter-td">{%s row.Title %}</td>
+                        <td class="alter-td">{%s row.Artist %}</td>
+                        <td class="alter-td">{%s row.Label %}</td>
+                        <td class="alter-td">{%s row.CN %}</td>
+                        <td class="alter-td">{%s row.Genre %}</td>
+                        <td class="alter-td">{%s= formatMedium(row.Medium) %}</td>
+                        <td class="alter-td">{%s row.Released.Format("2006-01-02") %}</td>
+                        <td class="alter-td">{%s row.Purchased.Time.Format("2006-01-02") %}</td>
+                        <td class="alter-td"><a class="button is-primary" href="/admin/edit/{%dl row.ID %}">Edit</a></td>
+                        <td class="alter-td"><a class="button is-danger" href="/admin/delete/{%dl row.ID %}">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endfunc %}

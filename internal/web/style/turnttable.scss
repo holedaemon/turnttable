@@ -6,6 +6,8 @@ $black-bis: color.scale($black, $lightness: 2%);
 $black-ter: color.scale($black-bis, $lightness: 2%);
 $white: color.invert($black, $weight: 100%);
 
+$body-color: $white;
+
 $dark: $black;
 $scheme-main: $black;
 $scheme-main-bis: $black-bis;
@@ -41,6 +43,9 @@ $input-focus-border-color: $primary;
 $input-arrow: $primary;
 $input-focus-box-shadow-color: rgba($primary, 0.25);
 
+$file-name-border-color: $dark;
+$file-cta-color: $white;
+
 @import "bulma/sass/form/_all.sass";
 
 ::placeholder {
@@ -54,6 +59,10 @@ $input-focus-box-shadow-color: rgba($primary, 0.25);
 #about-hr {
     margin-top: 0;
     margin-bottom: .5rem;
+}
+
+.alter-td {
+    vertical-align: middle !important;
 }
 
 @include touch {

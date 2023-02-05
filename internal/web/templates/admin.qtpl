@@ -1,0 +1,21 @@
+{% code
+type AdminPage struct {
+    BasePage
+}
+%}
+
+{% func (p *AdminPage) Title() %}Admin Dashboard{% endfunc %}
+
+{% func (p *AdminPage) Body() %}
+<div class="columns is-centered">
+    <div class="column is-narrow">
+        <a class="button is-primary is-large" href="/admin/insert">Insert</a>
+    </div>
+    <div class="column is-narrow">
+        <a class="button is-primary is-large" href="/admin/insert/bulk">Bulk Insert</a>
+    </div>
+    <div class="column is-narrow">
+        <a class="button is-primary is-large" href="/admin/alter">Alter</a>
+    </div>
+</div>
+{% endfunc %}
