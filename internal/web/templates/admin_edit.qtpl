@@ -1,0 +1,99 @@
+{% import (
+    "github.com/holedaemon/turnttable/internal/db/models"
+    "strings"
+) %}
+
+{% code
+type AdminEditPage struct {
+    BasePage
+    Record *models.Record
+}
+%}
+
+{% func (p *AdminEditPage) Title() %}Edit Record{% endfunc %}
+
+{% func (p *AdminEditPage) Body() %}
+<form method="post">
+    <div class="columns is-multiline mx-1">
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Release Title</label>
+                <div class="control">
+                    <input class="input" type="text" name="title" placeholder="Release Title" value="{%s p.Record.Title %}" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Artist</label>
+                <div class="control">
+                    <input class="input" type="text" name="artist" placeholder="Artist" value="{%s p.Record.Artist %}" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Label</label>
+                <div class="control">
+                    <input class="input" type="text" name="label" placeholder="Label" value="{%s p.Record.Label %}" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Catalogue Number</label>
+                <div class="control">
+                    <input class="input" type="text" name="cn" placeholder="Catalogue Number" value="{%s p.Record.CN %}" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Genre</label>
+                <div class="control">
+                    <input class="input" type="text" name="genre" placeholder="Genre" value="{%s p.Record.Genre %}" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Released</label>
+                <div class="control">
+                    <input class="input" type="date" name="release" value="{%s p.Record.Released.Format("2006-01-02") %}" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label has-text-white-ter">Purchased</label>
+                <div class="control">
+                    <input class="input" type="date" name="purchased" value="{%s p.Record.Purchased.Time.Format("2006-01-02") %}" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-quarter">
+            <div class="field">
+                <label class="label has-text-white-ter">Medium</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="medium" value="{%s= strings.ToLower(formatMedium(p.Record.Medium)) %}">
+                            <option value="cd">CD</option>
+                            <option value="vinyl">Vinyl</option>
+                            <option value="cassette">Cassette</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="columns mx-1">
+        <div class="column is-one-quarter">
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endfunc %}
