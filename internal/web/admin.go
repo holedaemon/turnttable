@@ -18,6 +18,16 @@ import (
 	"go.uber.org/zap"
 )
 
+var azLoc *time.Location
+
+func init() {
+	var err error
+	azLoc, err = time.LoadLocation("America/Phoenix")
+	if err != nil {
+		panic("web: loading America/Phoenix data: " + err.Error())
+	}
+}
+
 func (s *Server) routeAdmin(r chi.Router) {
 	r.Use(s.adminAuth)
 
@@ -98,14 +108,14 @@ func (s *Server) postAdminInsert(w http.ResponseWriter, r *http.Request) {
 	released := r.FormValue("release")
 	pur := r.FormValue("purchased")
 
-	rt, err := time.Parse("2006-01-02", released)
+	rt, err := time.ParseInLocation("2006-01-02", released, azLoc)
 	if err != nil {
 		ctxlog.Error(ctx, "error parsing release time", zap.Error(err))
 		s.badRequest(w, "Release time formatting is bad")
 		return
 	}
 
-	pt, err := time.Parse("2006-01-02", pur)
+	pt, err := time.ParseInLocation("2006-01-02", pur, azLoc)
 	if err != nil {
 		ctxlog.Error(ctx, "error parsing purchase time", zap.Error(err))
 		s.badRequest(w, "Purchased time formatting is bad")
@@ -175,14 +185,14 @@ func (s *Server) postAdminBulkInsert(w http.ResponseWriter, r *http.Request) {
 		released := row[5]
 		pur := row[6]
 
-		rt, err := time.Parse("2006-01-02", released)
+		rt, err := time.ParseInLocation("2006-01-02", released, azLoc)
 		if err != nil {
 			ctxlog.Error(ctx, "error parsing release time", zap.Error(err))
 			s.badRequest(w, "Release time formatting is bad")
 			return
 		}
 
-		pt, err := time.Parse("2006-01-02", pur)
+		pt, err := time.ParseInLocation("2006-01-02", pur, azLoc)
 		if err != nil {
 			ctxlog.Error(ctx, "error parsing purchase time", zap.Error(err))
 			s.badRequest(w, "Purchased time formatting is bad")
@@ -292,32 +302,42 @@ func (s *Server) postAdminEdit(w http.ResponseWriter, r *http.Request) {
 	released := r.FormValue("release")
 	pur := r.FormValue("purchased")
 
-	rt, err := time.Parse("2006-01-02", released)
+	rt, err := time.ParseInLocation("2006-01-02", released, azLoc)
 	if err != nil {
 		ctxlog.Error(ctx, "error parsing release time", zap.Error(err))
 		s.badRequest(w, "Release time formatting is bad")
 		return
 	}
 
-	pt, err := time.Parse("2006-01-02", pur)
+	pt, err := time.ParseInLocation("2006-01-02", pur, azLoc)
 	if err != nil {
 		ctxlog.Error(ctx, "error parsing purchase time", zap.Error(err))
 		s.badRequest(w, "Purchased time formatting is bad")
 		return
 	}
 
-	record := models.Record{
-		Title:     r.FormValue("title"),
-		Artist:    r.FormValue("artist"),
-		Label:     r.FormValue("label"),
-		CN:        r.FormValue("cn"),
-		Genre:     r.FormValue("genre"),
-		Released:  rt,
-		Purchased: null.TimeFrom(pt),
-		Medium:    medium,
+	record, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.DB)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			s.badRequest(w, "Record doesn't exist???")
+			return
+		}
+
+		ctxlog.Error(ctx, "error getting record", zap.Error(err))
+		s.internalError(w)
+		return
 	}
 
-	if err := record.Insert(ctx, s.DB, boil.Infer()); err != nil {
+	record.Title = r.FormValue("title")
+	record.Artist = r.FormValue("artist")
+	record.Label = r.FormValue("label")
+	record.CN = r.FormValue("cn")
+	record.Genre = r.FormValue("genre")
+	record.Released = rt
+	record.Purchased = null.TimeFrom(pt)
+	record.Medium = medium
+
+	if err := record.Update(ctx, s.DB, boil.Infer()); err != nil {
 		ctxlog.Error(ctx, "error inserting", zap.Error(err))
 		s.internalError(w)
 		return
