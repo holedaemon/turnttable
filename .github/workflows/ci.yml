@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - trunk
+  pull_request:
+    branches:
+      - trunk
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '^1.20'
+    
+    - name: Tidy modules
+      run: go mod tidy
+    
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v3
+    
+    - name: Turnstyle
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/trunk' }}
+      uses: softprops/turnstyle@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Build image
+      run: docker build --file Dockerfile --tag turnttable:latest .
+    
+    - name: Push to GitHub
+      if: ${{ github.repository == 'holedaemon/turnttable' && github.event_name == 'push' && github.ref == 'refs/heads/trunk' }}
+      run: |
+        echo '${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin'
+        docker tag turnttable:latest ghcr.io/holedaemon/turnttable:latest
+        docker push ghcr.io/holedaemon/turnttable:latest
