@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
+	src := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	fileName := fmt.Sprintf("turnttable_bulk_csv%d.csv", time.Now().Unix())
 
@@ -37,7 +37,7 @@ func main() {
 			"skapunk",
 			"2023-02-05",
 			"2023-02-05",
-			mediums[rand.Intn(len(mediums))],
+			mediums[src.Intn(len(mediums))],
 		}
 
 		if err := writer.Write(row); err != nil {

@@ -148,7 +148,11 @@ func (s *Server) adminBulkInsert(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) postAdminBulkInsert(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	r.ParseMultipartForm(10 << 20)
+	if err := r.ParseMultipartForm(10 << 20); err != nil {
+		ctxlog.Error(ctx, "error parsing form", zap.Error(err))
+		s.internalError(w)
+		return
+	}
 
 	file, _, err := r.FormFile("records")
 	if err != nil {
