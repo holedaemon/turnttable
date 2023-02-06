@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"os"
 	"strings"
 
@@ -14,12 +15,42 @@ import (
 )
 
 func main() {
+	rawDebug := os.Getenv("TURNTTABLE_DEBUG")
+	debug := rawDebug != ""
+
+	var (
+		logger *zap.Logger
+		err    error
+	)
+
+	if debug {
+		logger, err = zap.NewDevelopment()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "error creating development logger: %s\n", err.Error())
+			return
+		}
+	} else {
+		logger, err = zap.NewProduction()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "error creating production logger: %s\n", err.Error())
+			return
+		}
+	}
+
+	ctx := ctxlog.WithLogger(context.Background(), logger)
+
 	addr := os.Getenv("TURNTTABLE_ADDR")
 	if addr == "" {
-		panic("turnttable: addr not specified")
+		logger.Fatal("addr is blank")
+		return
 	}
 
 	rawAdmins := os.Getenv("TURNTTABLE_ADMINS")
+	if rawAdmins == "" {
+		logger.Fatal("at least one admin account is required")
+		return
+	}
+
 	adminPairs := strings.Split(rawAdmins, ",")
 	admins := make(map[string]string)
 
@@ -27,11 +58,13 @@ func main() {
 		split := strings.Split(a, ":")
 
 		if len(split) < 2 {
-			panic("turntable: admin " + split[0] + " missing password")
+			logger.Fatal("admin missing password", zap.String("admin", split[0]))
+			return
 		}
 
 		if len(split) >= 3 {
-			panic("turnttable: admin " + split[0] + " has invalid password")
+			logger.Fatal("admin has invalid password", zap.String("admin", split[0]))
+			return
 		}
 
 		admins[split[0]] = split[1]
@@ -39,12 +72,32 @@ func main() {
 
 	dsn := os.Getenv("TURNTTABLE_DSN")
 	if dsn == "" {
-		panic("turnttable: dsn blank")
+		logger.Fatal("postgres DSN is blank")
+		return
 	}
 
-	db, err := sql.Open("pgx", dsn)
-	if err != nil {
-		panic("turnttable: error opening db conn: " + err.Error())
+	connected := false
+	var db *sql.DB
+
+	for i := 0; i < 20 && !connected; i++ {
+		var err error
+
+		db, err = sql.Open("pgx", dsn)
+		if err != nil {
+			logger.Error("error connecting to database", zap.Int("attempt", i), zap.Error(err))
+			continue
+		}
+
+		if err = db.PingContext(ctx); err != nil {
+			logger.Error("error pinging database", zap.Int("attempt", i), zap.Error(err))
+			continue
+		}
+
+		connected = true
+	}
+
+	if !connected {
+		logger.Fatal("unable to connect to database after 20 attempts")
 	}
 
 	defer db.Close()
@@ -55,14 +108,7 @@ func main() {
 		Admins: admins,
 	}
 
-	logger, err := zap.NewDevelopment()
-	if err != nil {
-		panic("turnttable: error creating zap logger")
-	}
-
-	ctx := ctxlog.WithLogger(context.Background(), logger)
-
 	if err := srv.Run(ctx); err != nil {
-		panic("turnttable: error running server: " + err.Error())
+		logger.Fatal("error running server", zap.Error(err))
 	}
 }
