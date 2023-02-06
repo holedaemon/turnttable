@@ -37,6 +37,6 @@ jobs:
     - name: Push to GitHub
       if: ${{ github.repository == 'holedaemon/turnttable' && github.event_name == 'push' && github.ref == 'refs/heads/trunk' }}
       run: |
-        echo '${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin'
+        echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
         docker tag turnttable:latest ghcr.io/holedaemon/turnttable:latest
         docker push ghcr.io/holedaemon/turnttable:latest
