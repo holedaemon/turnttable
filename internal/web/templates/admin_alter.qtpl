@@ -59,7 +59,14 @@ type AdminAlterPage struct {
                         <td class="alter-td">{%s row.Genre %}</td>
                         <td class="alter-td">{%s= formatMedium(row.Medium) %}</td>
                         <td class="alter-td">{%s row.Released.Format("2006-01-02") %}</td>
-                        <td class="alter-td">{%s row.Purchased.Time.Format("2006-01-02") %}</td>
+
+                        {% if row.Purchased.Time.IsZero() %}
+                            <td class="alter-td">N/A</td>
+                        {% else %}
+                            <td class="alter-td">{%s row.Purchased.Time.Format("2006-01-02") %}</td>
+                        {% endif %}
+
+
                         <td class="alter-td"><a class="button is-primary" href="/admin/edit/{%dl row.ID %}">Edit</a></td>
                         <td class="alter-td"><a class="button is-danger" href="/admin/delete/{%dl row.ID %}">Delete</a></td>
                     </tr>

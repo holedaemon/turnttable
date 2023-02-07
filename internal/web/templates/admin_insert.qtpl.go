@@ -113,7 +113,7 @@ func (p *AdminInsertPage) StreamBody(qw422016 *qt422016.Writer) {
             <div class="field">
                 <label class="label has-text-white-ter">Purchased</label>
                 <div class="control">
-                    <input class="input" type="date" name="purchased" required>
+                    <input class="input" type="date" name="purchased">
                 </div>
             </div>
         </div>

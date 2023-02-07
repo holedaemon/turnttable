@@ -148,7 +148,7 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:70
 	qw422016.E().S(p.Record.Purchased.Time.Format("2006-01-02"))
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:70
-	qw422016.N().S(`" required>
+	qw422016.N().S(`">
                 </div>
             </div>
         </div>

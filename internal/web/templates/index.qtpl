@@ -67,7 +67,12 @@ type IndexPage struct {
                         <td>{%s row.Genre %}</td>
                         <td>{%s= formatMedium(row.Medium) %}</td>
                         <td>{%s row.Released.Format("2006-01-02") %}</td>
-                        <td>{%s row.Purchased.Time.Format("2006-01-02") %}</td>
+
+                        {% if row.Purchased.Time.IsZero() %}
+                            <td>N/A</td>
+                        {% else %}
+                            <td>{%s row.Purchased.Time.Format("2006-01-02") %}</td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>

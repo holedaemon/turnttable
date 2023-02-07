@@ -211,51 +211,68 @@ func (p *IndexPage) StreamBody(qw422016 *qt422016.Writer) {
 			qw422016.E().S(row.Released.Format("2006-01-02"))
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:69
 			qw422016.N().S(`</td>
-                        <td>`)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:70
-			qw422016.E().S(row.Purchased.Time.Format("2006-01-02"))
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:70
-			qw422016.N().S(`</td>
+
+                        `)
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:71
+			if row.Purchased.Time.IsZero() {
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:71
+				qw422016.N().S(`
+                            <td>N/A</td>
+                        `)
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:73
+			} else {
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:73
+				qw422016.N().S(`
+                            <td>`)
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:74
+				qw422016.E().S(row.Purchased.Time.Format("2006-01-02"))
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:74
+				qw422016.N().S(`</td>
+                        `)
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:75
+			}
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:75
+			qw422016.N().S(`
                     </tr>
                 `)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:72
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
 		}
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:72
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
 		qw422016.N().S(`
             </tbody>
         </table>
     </div>
 `)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:76
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:81
 	}
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:76
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:81
 	qw422016.N().S(`
 `)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 }
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 func (p *IndexPage) WriteBody(qq422016 qtio422016.Writer) {
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 	p.StreamBody(qw422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 	qt422016.ReleaseWriter(qw422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 }
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 func (p *IndexPage) Body() string {
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 	qb422016 := qt422016.AcquireByteBuffer()
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 	p.WriteBody(qb422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 	qs422016 := string(qb422016.B)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 	qt422016.ReleaseByteBuffer(qb422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 	return qs422016
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:77
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/index.qtpl:82
 }

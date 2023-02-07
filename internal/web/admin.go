@@ -117,20 +117,23 @@ func (s *Server) postAdminInsert(w http.ResponseWriter, r *http.Request) {
 
 	pt, err := time.ParseInLocation("2006-01-02", pur, azLoc)
 	if err != nil {
-		ctxlog.Error(ctx, "error parsing purchase time", zap.Error(err))
-		s.badRequest(w, "Purchased time formatting is bad")
-		return
+		pt = time.Time{}
 	}
 
 	record := models.Record{
-		Title:     r.FormValue("title"),
-		Artist:    r.FormValue("artist"),
-		Label:     r.FormValue("label"),
-		CN:        r.FormValue("cn"),
-		Genre:     r.FormValue("genre"),
-		Released:  rt,
-		Purchased: null.TimeFrom(pt),
-		Medium:    medium,
+		Title:    r.FormValue("title"),
+		Artist:   r.FormValue("artist"),
+		Label:    r.FormValue("label"),
+		CN:       r.FormValue("cn"),
+		Genre:    r.FormValue("genre"),
+		Released: rt,
+		Medium:   medium,
+	}
+
+	if pt.IsZero() {
+		record.Purchased = null.TimeFromPtr(nil)
+	} else {
+		record.Purchased = null.TimeFrom(pt)
 	}
 
 	if err := record.Insert(ctx, s.DB, boil.Infer()); err != nil {
@@ -198,20 +201,23 @@ func (s *Server) postAdminBulkInsert(w http.ResponseWriter, r *http.Request) {
 
 		pt, err := time.ParseInLocation("2006-01-02", pur, azLoc)
 		if err != nil {
-			ctxlog.Error(ctx, "error parsing purchase time", zap.Error(err))
-			s.badRequest(w, "Purchased time formatting is bad")
-			return
+			pt = time.Time{}
 		}
 
 		record := &models.Record{
-			Title:     row[0],
-			Artist:    row[1],
-			Label:     row[2],
-			CN:        row[3],
-			Genre:     row[4],
-			Released:  rt,
-			Purchased: null.TimeFrom(pt),
-			Medium:    mediumMap[strings.ToLower(row[7])],
+			Title:    row[0],
+			Artist:   row[1],
+			Label:    row[2],
+			CN:       row[3],
+			Genre:    row[4],
+			Released: rt,
+			Medium:   mediumMap[strings.ToLower(row[7])],
+		}
+
+		if pt.IsZero() {
+			record.Purchased = null.TimeFromPtr(nil)
+		} else {
+			record.Purchased = null.TimeFrom(pt)
 		}
 
 		if err := record.Insert(ctx, s.DB, boil.Infer()); err != nil {
@@ -315,9 +321,7 @@ func (s *Server) postAdminEdit(w http.ResponseWriter, r *http.Request) {
 
 	pt, err := time.ParseInLocation("2006-01-02", pur, azLoc)
 	if err != nil {
-		ctxlog.Error(ctx, "error parsing purchase time", zap.Error(err))
-		s.badRequest(w, "Purchased time formatting is bad")
-		return
+		pt = time.Time{}
 	}
 
 	record, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.DB)
@@ -338,8 +342,13 @@ func (s *Server) postAdminEdit(w http.ResponseWriter, r *http.Request) {
 	record.CN = r.FormValue("cn")
 	record.Genre = r.FormValue("genre")
 	record.Released = rt
-	record.Purchased = null.TimeFrom(pt)
 	record.Medium = medium
+
+	if pt.IsZero() {
+		record.Purchased = null.TimeFromPtr(nil)
+	} else {
+		record.Purchased = null.TimeFrom(pt)
+	}
 
 	if err := record.Update(ctx, s.DB, boil.Infer()); err != nil {
 		ctxlog.Error(ctx, "error inserting", zap.Error(err))
