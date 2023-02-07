@@ -7,64 +7,63 @@ package templates
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:1
 import (
 	"github.com/holedaemon/turnttable/internal/db/models"
-	"strings"
 )
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:6
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:5
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:6
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:5
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:7
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:6
 type AdminEditPage struct {
 	BasePage
 	Record *models.Record
 }
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 func (p *AdminEditPage) StreamTitle(qw422016 *qt422016.Writer) {
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 	qw422016.N().S(`Edit Record`)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 }
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 func (p *AdminEditPage) WriteTitle(qq422016 qtio422016.Writer) {
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 	p.StreamTitle(qw422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 	qt422016.ReleaseWriter(qw422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 }
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 func (p *AdminEditPage) Title() string {
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 	qb422016 := qt422016.AcquireByteBuffer()
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 	p.WriteTitle(qb422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 	qs422016 := string(qb422016.B)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 	qt422016.ReleaseByteBuffer(qb422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 	return qs422016
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:13
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:12
 }
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:15
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:14
 func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:15
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:14
 	qw422016.N().S(`
 <form method="post">
     <div class="columns is-multiline mx-1">
@@ -73,9 +72,9 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
                 <label class="label has-text-white-ter">Release Title</label>
                 <div class="control">
                     <input class="input" type="text" name="title" placeholder="Release Title" value="`)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:22
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:21
 	qw422016.E().S(p.Record.Title)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:22
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:21
 	qw422016.N().S(`" required>
                 </div>
             </div>
@@ -85,9 +84,9 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
                 <label class="label has-text-white-ter">Artist</label>
                 <div class="control">
                     <input class="input" type="text" name="artist" placeholder="Artist" value="`)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:30
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:29
 	qw422016.E().S(p.Record.Artist)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:30
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:29
 	qw422016.N().S(`" required>
                 </div>
             </div>
@@ -97,9 +96,9 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
                 <label class="label has-text-white-ter">Label</label>
                 <div class="control">
                     <input class="input" type="text" name="label" placeholder="Label" value="`)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:38
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:37
 	qw422016.E().S(p.Record.Label)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:38
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:37
 	qw422016.N().S(`" required>
                 </div>
             </div>
@@ -109,9 +108,9 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
                 <label class="label has-text-white-ter">Catalogue Number</label>
                 <div class="control">
                     <input class="input" type="text" name="cn" placeholder="Catalogue Number" value="`)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:46
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:45
 	qw422016.E().S(p.Record.CN)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:46
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:45
 	qw422016.N().S(`" required>
                 </div>
             </div>
@@ -121,9 +120,9 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
                 <label class="label has-text-white-ter">Genre</label>
                 <div class="control">
                     <input class="input" type="text" name="genre" placeholder="Genre" value="`)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:54
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:53
 	qw422016.E().S(p.Record.Genre)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:54
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:53
 	qw422016.N().S(`" required>
                 </div>
             </div>
@@ -133,9 +132,9 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
                 <label class="label has-text-white-ter">Released</label>
                 <div class="control">
                     <input class="input" type="date" name="release" value="`)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:62
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:61
 	qw422016.E().S(p.Record.Released.Format("2006-01-02"))
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:62
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:61
 	qw422016.N().S(`" required>
                 </div>
             </div>
@@ -145,9 +144,9 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
                 <label class="label has-text-white-ter">Purchased</label>
                 <div class="control">
                     <input class="input" type="date" name="purchased" value="`)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:70
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:69
 	qw422016.E().S(p.Record.Purchased.Time.Format("2006-01-02"))
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:70
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:69
 	qw422016.N().S(`">
                 </div>
             </div>
@@ -157,14 +156,34 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
                 <label class="label has-text-white-ter">Medium</label>
                 <div class="control">
                     <div class="select">
-                        <select name="medium" value="`)
+                        <select name="medium">
+                            <option value="cd" `)
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:79
-	qw422016.N().S(strings.ToLower(formatMedium(p.Record.Medium)))
+	if p.Record.Medium == models.MediumCD {
 //line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:79
-	qw422016.N().S(`">
-                            <option value="cd">CD</option>
-                            <option value="vinyl">Vinyl</option>
-                            <option value="cassette">Cassette</option>
+		qw422016.N().S(` selected `)
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:79
+	}
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:79
+	qw422016.N().S(`>CD</option>
+                            <option value="vinyl" `)
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:80
+	if p.Record.Medium == models.MediumVinyl {
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:80
+		qw422016.N().S(` selected `)
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:80
+	}
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:80
+	qw422016.N().S(`>Vinyl</option>
+                            <option value="cassette" `)
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:81
+	if p.Record.Medium == models.MediumCassette {
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:81
+		qw422016.N().S(` selected `)
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:81
+	}
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:81
+	qw422016.N().S(`>Cassette</option>
                         </select>
                     </div>
                 </div>
@@ -182,31 +201,31 @@ func (p *AdminEditPage) StreamBody(qw422016 *qt422016.Writer) {
     </div>
 </form>
 `)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 }
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 func (p *AdminEditPage) WriteBody(qq422016 qtio422016.Writer) {
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 	p.StreamBody(qw422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 	qt422016.ReleaseWriter(qw422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 }
 
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 func (p *AdminEditPage) Body() string {
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 	qb422016 := qt422016.AcquireByteBuffer()
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 	p.WriteBody(qb422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 	qs422016 := string(qb422016.B)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 	qt422016.ReleaseByteBuffer(qb422016)
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 	return qs422016
-//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:99
+//line /home/max/git/holedaemon/turnttable/internal/web/templates/admin_edit.qtpl:98
 }

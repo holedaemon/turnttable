@@ -1,6 +1,5 @@
 {% import (
     "github.com/holedaemon/turnttable/internal/db/models"
-    "strings"
 ) %}
 
 {% code
@@ -76,10 +75,10 @@ type AdminEditPage struct {
                 <label class="label has-text-white-ter">Medium</label>
                 <div class="control">
                     <div class="select">
-                        <select name="medium" value="{%s= strings.ToLower(formatMedium(p.Record.Medium)) %}">
-                            <option value="cd">CD</option>
-                            <option value="vinyl">Vinyl</option>
-                            <option value="cassette">Cassette</option>
+                        <select name="medium">
+                            <option value="cd" {% if p.Record.Medium == models.MediumCD %} selected {% endif %}>CD</option>
+                            <option value="vinyl" {% if p.Record.Medium == models.MediumVinyl %} selected {% endif %}>Vinyl</option>
+                            <option value="cassette" {% if p.Record.Medium == models.MediumCassette %} selected {% endif %}>Cassette</option>
                         </select>
                     </div>
                 </div>
