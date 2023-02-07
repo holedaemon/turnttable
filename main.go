@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/holedaemon/turnttable/internal/web"
 	"github.com/zikaeroh/ctxlog"
@@ -79,17 +80,21 @@ func main() {
 	connected := false
 	var db *sql.DB
 
+	timeout := time.Second * 10
+
 	for i := 0; i < 20 && !connected; i++ {
 		var err error
 
 		db, err = sql.Open("pgx", dsn)
 		if err != nil {
 			logger.Error("error connecting to database", zap.Int("attempt", i), zap.Error(err))
+			time.Sleep(timeout)
 			continue
 		}
 
 		if err = db.PingContext(ctx); err != nil {
 			logger.Error("error pinging database", zap.Int("attempt", i), zap.Error(err))
+			time.Sleep(timeout)
 			continue
 		}
 
