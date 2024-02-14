@@ -50,7 +50,7 @@ func (s *Server) routeAdmin(r chi.Router) {
 
 func (s *Server) adminAuth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if len(s.Admins) == 0 {
+		if len(s.admins) == 0 {
 			s.unauthorized(w, false)
 			return
 		}
@@ -61,7 +61,7 @@ func (s *Server) adminAuth(next http.Handler) http.Handler {
 			return
 		}
 
-		expected := s.Admins[user]
+		expected := s.admins[user]
 		if expected == "" || pass != expected {
 			s.unauthorized(w, true)
 			return
@@ -93,7 +93,7 @@ func (s *Server) postAdminInsert(w http.ResponseWriter, r *http.Request) {
 
 	exists, err := models.Records(
 		qm.Where("title ILIKE ? AND medium = ?", title, medium),
-	).Exists(ctx, s.DB)
+	).Exists(ctx, s.db)
 	if err != nil {
 		ctxlog.Error(ctx, "error querying for record", zap.Error(err))
 		s.internalError(w)
@@ -136,7 +136,7 @@ func (s *Server) postAdminInsert(w http.ResponseWriter, r *http.Request) {
 		record.Purchased = null.TimeFrom(pt)
 	}
 
-	if err := record.Insert(ctx, s.DB, boil.Infer()); err != nil {
+	if err := record.Insert(ctx, s.db, boil.Infer()); err != nil {
 		ctxlog.Error(ctx, "error inserting", zap.Error(err))
 		s.internalError(w)
 		return
@@ -220,7 +220,7 @@ func (s *Server) postAdminBulkInsert(w http.ResponseWriter, r *http.Request) {
 			record.Purchased = null.TimeFrom(pt)
 		}
 
-		if err := record.Insert(ctx, s.DB, boil.Infer()); err != nil {
+		if err := record.Insert(ctx, s.db, boil.Infer()); err != nil {
 			ctxlog.Error(ctx, "error inserting record into database", zap.Error(err))
 			s.internalError(w)
 			return
@@ -245,9 +245,9 @@ func (s *Server) adminAlter(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if filter == "all" {
-		rows, err = models.Records().All(ctx, s.DB)
+		rows, err = models.Records().All(ctx, s.db)
 	} else {
-		rows, err = models.Records(qm.Where("MEDIUM = ?", filter)).All(ctx, s.DB)
+		rows, err = models.Records(qm.Where("MEDIUM = ?", filter)).All(ctx, s.db)
 	}
 
 	if err != nil {
@@ -265,7 +265,7 @@ func (s *Server) adminEdit(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	ctx := r.Context()
 
-	row, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.DB)
+	row, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.db)
 	if err != nil {
 		if errors.Is(sql.ErrNoRows, err) {
 			s.badRequest(w, "No record by that \"id\" exists")
@@ -297,7 +297,7 @@ func (s *Server) postAdminEdit(w http.ResponseWriter, r *http.Request) {
 
 	exists, err := models.Records(
 		qm.Where("title ILIKE ? AND medium = ? AND id != ?", title, medium, id),
-	).Exists(ctx, s.DB)
+	).Exists(ctx, s.db)
 	if err != nil {
 		ctxlog.Error(ctx, "error querying for record", zap.Error(err))
 		s.internalError(w)
@@ -324,7 +324,7 @@ func (s *Server) postAdminEdit(w http.ResponseWriter, r *http.Request) {
 		pt = time.Time{}
 	}
 
-	record, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.DB)
+	record, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.db)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			s.badRequest(w, "Record doesn't exist???")
@@ -350,7 +350,7 @@ func (s *Server) postAdminEdit(w http.ResponseWriter, r *http.Request) {
 		record.Purchased = null.TimeFrom(pt)
 	}
 
-	if err := record.Update(ctx, s.DB, boil.Infer()); err != nil {
+	if err := record.Update(ctx, s.db, boil.Infer()); err != nil {
 		ctxlog.Error(ctx, "error inserting", zap.Error(err))
 		s.internalError(w)
 		return
@@ -363,7 +363,7 @@ func (s *Server) adminDelete(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	ctx := r.Context()
 
-	row, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.DB)
+	row, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.db)
 	if err != nil {
 		if errors.Is(sql.ErrNoRows, err) {
 			s.badRequest(w, "No record by that \"id\" exists")
@@ -384,7 +384,7 @@ func (s *Server) postAdminDelete(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	ctx := r.Context()
 
-	row, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.DB)
+	row, err := models.Records(qm.Where("id = ?", id)).One(ctx, s.db)
 	if err != nil {
 		if errors.Is(sql.ErrNoRows, err) {
 			s.badRequest(w, "No record by that \"id\" exists")
@@ -396,7 +396,7 @@ func (s *Server) postAdminDelete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := row.Delete(ctx, s.DB); err != nil {
+	if err := row.Delete(ctx, s.db); err != nil {
 		ctxlog.Error(ctx, "error deleting row", zap.Error(err))
 		s.internalError(w)
 		return

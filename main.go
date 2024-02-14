@@ -64,10 +64,14 @@ func main() {
 
 	defer db.Close()
 
-	srv := &web.Server{
-		Addr:   opts.Addr,
-		DB:     db,
-		Admins: opts.Admins,
+	srv, err := web.New(
+		web.WithAddr(opts.Addr),
+		web.WithDB(db),
+		web.WithAdmins(opts.Admins),
+	)
+
+	if err != nil {
+		logger.Fatal("error creating server", zap.Error(err))
 	}
 
 	if err := srv.Run(ctx); err != nil {
