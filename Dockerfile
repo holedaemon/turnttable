@@ -9,6 +9,6 @@ COPY ./ ./
 
 RUN go build -o turnttable
 
-FROM gcr.io/distroless/base:nonroot
+FROM gcr.io/distroless/base-debian12:nonroot
 COPY --from=builder /app/turnttable /turnttable
 ENTRYPOINT [ "/turnttable" ]
