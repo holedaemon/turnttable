@@ -78,7 +78,6 @@ func (s *Server) Run(ctx context.Context) error {
 	r.Use(s.recoverer)
 
 	r.Get("/", s.index)
-	r.Get("/about", s.about)
 	r.Route("/admin", s.routeAdmin)
 
 	r.NotFound(s.notFound)
@@ -132,8 +131,4 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 	templates.WritePageTemplate(w, &templates.IndexPage{
 		Rows: rows,
 	})
-}
-
-func (s *Server) about(w http.ResponseWriter, r *http.Request) {
-	templates.WritePageTemplate(w, &templates.Aboutpage{})
 }
