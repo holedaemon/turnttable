@@ -8,11 +8,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/holedaemon/turnttable/internal/db/dbx"
 	"github.com/holedaemon/turnttable/internal/web"
 	"github.com/zikaeroh/ctxlog"
 	"go.uber.org/zap"
-
-	_ "github.com/jackc/pgx/stdlib"
 )
 
 func main() {
@@ -85,7 +84,7 @@ func main() {
 	for i := 0; i < 20 && !connected; i++ {
 		var err error
 
-		db, err = sql.Open("pgx", dsn)
+		db, err = sql.Open(dbx.Driver, dsn)
 		if err != nil {
 			logger.Error("error connecting to database", zap.Int("attempt", i), zap.Error(err))
 			time.Sleep(timeout)
