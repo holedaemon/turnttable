@@ -3,6 +3,7 @@ module github.com/holedaemon/turnttable
 go 1.19
 
 require (
+	github.com/caarlos0/env/v10 v10.0.0
 	github.com/friendsofgo/errors v0.9.2
 	github.com/go-chi/chi/v5 v5.0.11
 	github.com/jackc/pgx/v5 v5.5.3

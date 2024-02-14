@@ -5,95 +5,53 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	"strings"
 	"time"
 
+	"github.com/caarlos0/env/v10"
 	"github.com/holedaemon/turnttable/internal/db/dbx"
 	"github.com/holedaemon/turnttable/internal/web"
 	"github.com/zikaeroh/ctxlog"
 	"go.uber.org/zap"
 )
 
+type options struct {
+	Addr    string            `env:"TURNTTABLE_ADDR"`
+	Debug   bool              `env:"TURNTTABLE_DEBUG" envDefault:"false"`
+	DSN     string            `env:"TURNTTABLE_DSN"`
+	Admins  map[string]string `env:"TURNTTABLE_ADMINS"`
+	Retries int               `env:"TURNTTABLE_DB_RETRIES" envDefault:"20"`
+	Timeout time.Duration     `env:"TURNTTABLE_DB_TIMEOUT" envDefault:"10s"`
+}
+
 func main() {
-	rawDebug := os.Getenv("TURNTTABLE_DEBUG")
-	debug := rawDebug != ""
-
-	var (
-		logger *zap.Logger
-		err    error
-	)
-
-	if debug {
-		logger, err = zap.NewDevelopment()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "error creating development logger: %s\n", err.Error())
-			return
-		}
-	} else {
-		logger, err = zap.NewProduction()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "error creating production logger: %s\n", err.Error())
-			return
-		}
+	envOpts := env.Options{
+		RequiredIfNoDef: true,
 	}
 
+	var opts options
+	if err := env.ParseWithOptions(&opts, envOpts); err != nil {
+		fmt.Fprintf(os.Stderr, "error parsing env options: %s\n", err.Error())
+		return
+	}
+
+	logger := ctxlog.New(opts.Debug)
 	ctx := ctxlog.WithLogger(context.Background(), logger)
-
-	addr := os.Getenv("TURNTTABLE_ADDR")
-	if addr == "" {
-		logger.Fatal("addr is blank")
-		return
-	}
-
-	rawAdmins := os.Getenv("TURNTTABLE_ADMINS")
-	if rawAdmins == "" {
-		logger.Fatal("at least one admin account is required")
-		return
-	}
-
-	adminPairs := strings.Split(rawAdmins, ",")
-	admins := make(map[string]string)
-
-	for _, a := range adminPairs {
-		split := strings.Split(a, ":")
-
-		if len(split) < 2 {
-			logger.Fatal("admin missing password", zap.String("admin", split[0]))
-			return
-		}
-
-		if len(split) >= 3 {
-			logger.Fatal("admin has invalid password", zap.String("admin", split[0]))
-			return
-		}
-
-		admins[split[0]] = split[1]
-	}
-
-	dsn := os.Getenv("TURNTTABLE_DSN")
-	if dsn == "" {
-		logger.Fatal("postgres DSN is blank")
-		return
-	}
-
 	connected := false
 	var db *sql.DB
 
-	timeout := time.Second * 10
-
-	for i := 0; i < 20 && !connected; i++ {
+	for i := 0; i < opts.Retries && !connected; i++ {
 		var err error
 
-		db, err = sql.Open(dbx.Driver, dsn)
+		db, err = sql.Open(dbx.Driver, opts.DSN)
 		if err != nil {
 			logger.Error("error connecting to database", zap.Int("attempt", i), zap.Error(err))
-			time.Sleep(timeout)
+			time.Sleep(opts.Timeout)
 			continue
 		}
 
 		if err = db.PingContext(ctx); err != nil {
 			logger.Error("error pinging database", zap.Int("attempt", i), zap.Error(err))
-			time.Sleep(timeout)
+			time.Sleep(opts.Timeout)
 			continue
 		}
 
@@ -107,9 +65,9 @@ func main() {
 	defer db.Close()
 
 	srv := &web.Server{
-		Addr:   addr,
+		Addr:   opts.Addr,
 		DB:     db,
-		Admins: admins,
+		Admins: opts.Admins,
 	}
 
 	if err := srv.Run(ctx); err != nil {

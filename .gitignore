@@ -4,3 +4,5 @@ tabulator/
 *.csv
 reflex.conf
 bin/
+*.sql
+.env
