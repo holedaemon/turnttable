@@ -25,8 +25,7 @@ func (s *Server) recoverer(next http.Handler) http.Handler {
 	})
 }
 
-// Logger injects a logger into the Handler chain.
-func Logger(logger *zap.Logger) func(http.Handler) http.Handler {
+func injectLogger(logger *zap.Logger) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		fn := func(w http.ResponseWriter, r *http.Request) {
 			ctx := ctxlog.WithLogger(r.Context(), logger)

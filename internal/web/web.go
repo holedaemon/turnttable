@@ -74,7 +74,7 @@ func (s *Server) Run(ctx context.Context) error {
 	r := chi.NewRouter()
 
 	logger := ctxlog.FromContext(ctx)
-	r.Use(Logger(logger))
+	r.Use(injectLogger(logger))
 	r.Use(s.recoverer)
 
 	r.Get("/", s.index)
