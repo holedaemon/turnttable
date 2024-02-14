@@ -66,7 +66,7 @@ func StreamPageTemplate(qw422016 *qt422016.Writer, p Page) {
         <meta property="og:title" content="turnttable">
         <meta property="og:description" content="A place for all the ladies to ogle my music collection">
         <meta property="og:type" content="website">
-        <meta property="og:image" content="/static/hsuhao.png">
+        <meta property="og:image" content="/static/turnttable.png">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/static/turnttable.css">
